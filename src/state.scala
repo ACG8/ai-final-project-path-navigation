@@ -1,3 +1,3 @@
 trait State {
-	def successors(): List[State]
+	def successors[T <: State](): List[T]
 }
