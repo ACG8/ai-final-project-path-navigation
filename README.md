@@ -38,8 +38,7 @@ of hill-climbing that generates the set D of all the descendants of the current 
 dc + k in the search tree, where dc is the depth of the current node. Then it chooses as the next
 node the immediate successor of the current node that is the ancestor of the best node in D.
 
-### 3 Note
-that standard hill-climbing is the same as 1-look-ahead hill-climbing.
+Note that standard hill-climbing is the same as 1-look-ahead hill-climbing.
 Run this implementation on the same test cases you selected for Part 1 and collect the same
 sort of statistics for a number of values of the parameter k.
 Provide a comparative evaluation of all the various configurations of strategies and heuristics
@@ -53,12 +52,9 @@ observations.
 * A point B is unreachable from a point A if and only if there is a polygon on the grid one of
 whose sides intersects with an internal point of the segment AB but does not coincide with
 AB.
-* The unique straight line over two points (a1, a2) and (b1, b2) of the Cartesian plane is denoted by the equation
-(b2 − a2)x1 − (b1 − a1)x2 = a1(b1 − a2) − a2(b1 − a1)
-in the unkowns x1 (for the first coordinate) and x2 (for the second coordinate).
-* Two lines a11x1 + a12x2 = b1 and a21x1 + a22x2 = b2 are parallel iff a22a11 = a21a12.
-* Two lines a11x1 + a12x2 = b1 and a21x1 + a22x2 = b2 that are not parallel intersect at the
+* The unique straight line over two points `(a1, a2)` and `(b1, b2)` of the Cartesian plane is denoted by the equation `(b2 − a2)x1 − (b1 − a1)x2 = a1(b1 − a2) − a2(b1 − a1)` in the unkowns x1 (for the first coordinate) and x2 (for the second coordinate).
+* Two lines `a11x1 + a12x2 = b1` and `a21x1 + a22x2 = b2` are parallel iff `a22a11 = a21a12`.
+* Two lines `a11x1 + a12x2 = b1` and `a21x1 + a22x2 = b2` that are not parallel intersect at the
 point
-(a22a11 − a21a12)
-−1
-* (a22b1 − a12b2, a11b2 − a21b1).
+`((a22a11 − a21a12)
+−1)*(a22b1 − a12b2, a11b2 − a21b1)`.
