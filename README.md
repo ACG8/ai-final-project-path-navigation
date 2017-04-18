@@ -1,3 +1,38 @@
+# 1 Project policies
+
+Each team can decide internally how to divide the project work among its members. However,
+in addition, each team must officially designate:
+
+* a coordinator to organize work sessions, make sure everyone knows where and when to meet
+and understands who is supposed to be doing what (Ananda)
+* a recorder to assemble and turn in the project material (Albert)
+* a checker to check the material to be submitted for correctness and verify that everyone in
+the group understands both the solutions adopted and the strategies used to obtain them (Richard)
+
+Each team member must have one the roles above.1 Your project report should document who
+played which role.
+All team members are personally responsible for the good functioning of the team and for
+resolving internal conflicts, especially in the case of non-participating team members. All students
+will be asked to submit two evaluations (on a form provided by the instructor) of how well they
+and their teammates performed as team members. Each evaluation is confidential and will not
+be shown to other team members. The evaluations will be incorporated into the calculation of an
+individual project grade for each team member.
+
+## What to submit
+
+Each team must turn in the following material at the end of the project.
+
+1. A technical report in PDF format, describing the project and its results. The report should
+follow as appropriate A. Sherman and C. Brown’s general guidelines for writing tech reports.
+
+2. The source code of your system, with detailed documentation and appropriate README
+files, so as to allow a third party to understand, install and run your code.
+
+3. The set of all the test files used to evaluate the system.
+
+All the material must be submitted through ICON as usual but as a zip archive of a single
+folder called ProjectMaterial.
+
 # 2.2 Path Planning
 Consider the problem of finding the shortest path between two points on a plane that has polygonal
 obstacles, as shown in Figure 1. This is an idealization of the problem a robot has to solve to
