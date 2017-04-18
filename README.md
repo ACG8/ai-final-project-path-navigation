@@ -1,8 +1,4 @@
-# ai-final-project-path-navigation
-Final project for the Spring 2017 AI course. Finding the shortest path on a plane with polygonal obstacles.
-
-
-#2.2 Path Planning
+# 2.2 Path Planning
 Consider the problem of finding the shortest path between two points on a plane that has polygonal
 obstacles, as shown in Figure 1. This is an idealization of the problem a robot has to solve to
 navigate its way around a crowded environment.
@@ -10,6 +6,7 @@ navigate its way around a crowded environment.
 Suppose the state space consists of a m × n grid of points in the plane. For simplicity, but
 without loss of generality if we admit one-vertex polygons, assume that the robot always starts on
 a polygon vertex in the grid and its goal is to reach some other polygon vertex.
+
 It is not difficult to show that the shortest path from one polygon vertex to any other polygon
 vertex in the grid must consist of straight-line segments joining a number of polygon vertices.
 
@@ -19,7 +16,7 @@ from v in a straight line, without intersecting any other vertices or internal p
 the grid. In this setting a solution is a (possibly non-straight line) between an initial and a final
 point, described by the sequence of its segments. The cost of a solution is its length.
 
-##Part 1 
+## Part 1 
 Implement the search algorithm first using the greedy best-first strategy and then any
 search strategy among A*, IDA* and SMA*. Except for the data structures that implement a state,
 the heuristic function and the procedures that manipulate states, your implementation should be
@@ -35,13 +32,13 @@ test cases include non-convex polygons as well.
 
 For each test case report the same kind of statistics required in the 8-puzzle project.
 
-##Part 2
+## Part 2
 Now implement the search algorithm using k-look-ahead hill-climbing. This is a variation
 of hill-climbing that generates the set D of all the descendants of the current node that are at depth
 dc + k in the search tree, where dc is the depth of the current node. Then it chooses as the next
 node the immediate successor of the current node that is the ancestor of the best node in D.
 
-3 Note
+### 3 Note
 that standard hill-climbing is the same as 1-look-ahead hill-climbing.
 Run this implementation on the same test cases you selected for Part 1 and collect the same
 sort of statistics for a number of values of the parameter k.
@@ -49,7 +46,7 @@ Provide a comparative evaluation of all the various configurations of strategies
 that you tried in Part 1 with the ones in Part 2. Focus on computational and costs and on the
 quality of the solution found.
 
-##Hints
+## Hints
 To implement the various domain specific functions in this problem, it is useful to make the following
 observations.
 
