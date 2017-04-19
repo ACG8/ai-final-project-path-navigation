@@ -1,9 +1,9 @@
 package model
 
-trait State {
-	// This signature won't work because successors has to handle ANY kind of state (whatever T is)
-	// a "PathState" can't return a list of "SudokuStates" as successors.
-	//def successors[T <: State](): List[T]
+/**
+  * Created by Ananda on 4/18/2017.
+  */
 
-	def successors(): List[State]
+trait State {
+	def successors(): List[(State,Double)]
 }
