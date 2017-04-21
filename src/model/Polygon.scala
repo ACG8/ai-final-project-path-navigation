@@ -3,30 +3,22 @@ package model
 /**
   * Created by agieg on 4/19/2017.
   */
-class Polygon(sides: Line*) {
+class Polygon(sides: Line*) extends Iterable[Line] {
   if (sides.length < 3) {
     throw new IllegalArgumentException("Polygons must have at least 3 sides.")
   }
 
-  val rotatedOnce: Seq[Line] = rotate(sides)
-  var rotatedAround: Seq[Line] = Nil
-  for (a <- 1 until sides.length) {
-    if (rotatedAround == Nil) {
-      rotatedAround = rotate(sides)
-    } else {
-      rotatedAround = rotate(rotatedAround)
-    }
-  }
-
-  (rotatedOnce, sides, rotatedAround).zipped.toList.foreach(tuple => {
-    sides.foreach(side => {
-      if (side != tuple._1 && side != tuple._2 && side != tuple._3 && tuple._2.intersects(side)) {
-        throw new IllegalArgumentException("Two non-adjacent sides intersect each other: "+
-          tuple._2.toString + ", " + side.toString)
+  sides.foreach(a => {
+    sides.foreach(b => {
+      if (a.intersects(b)) {
+        throw new IllegalArgumentException("No line should intersect with any other line a polygon, including the same line")
       }
     })
   })
 
+  override def iterator: Iterator[Line] = {
+    sides.iterator
+  }
 
   // Check to make sure that adjacent sides connect.
   val zippedSides: Seq[Line Tuple2 Line] = for ( (a, b) <- sides zip rotate(sides) ) yield Tuple2(a, b)
@@ -38,6 +30,26 @@ class Polygon(sides: Line*) {
       throw new IllegalArgumentException("The Y coordinates of two consecutive sides are not equal")
     }
   })
+
+  def intersects(line: Line): Boolean = {
+    this.foreach(pLine => {
+      if (line.intersects(pLine)) {
+        return false
+      }
+    })
+    true
+  }
+
+  def overlaps(polygon: Polygon): Boolean = {
+    polygon.foreach(aLine => {
+      this.foreach(bLine => {
+        if (aLine.intersects(bLine)) {
+          return true
+        }
+      })
+    })
+    false
+  }
 
   private def rotate(lst: Seq[Line]): Seq[Line] = {
     lst match {

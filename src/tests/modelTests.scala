@@ -63,10 +63,15 @@ object modelTests {
       val second = line(point(2, 2), point(2, 3))
       assert(!first.intersects(second), "These lines should not intersect.")
     }),
-    new Test("endsIntersect", () => {
-      val first = line(point(1, 1), point(1,2))
-      val second = line(point(1, 2), point(3, 3))
-      assert(first.intersects(second), "These lines should intersect at their ends.")
+    new Test("overlapping lines dont intersect", () => {
+      val first = line(point(1, 5), point(5, 5))
+      val second = line(point(1, 5), point(5, 5))
+      assert(!first.intersects(second), "Overlapping lines should not intersect.")
+    }),
+    new Test("lines that meet at the end dont intersect", () => {
+      val first = line(point(1, 5), point(5, 5))
+      val second = line(point(5, 5), point(2, 3))
+      assert(!first.intersects(second), "Lines that meet at an end should not intersect.")
     })
   )
 
