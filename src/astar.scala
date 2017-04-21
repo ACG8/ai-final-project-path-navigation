@@ -16,5 +16,6 @@ object astar {
   	// store the state-cost tuples in a priority queue ordered by cost
     var frontier = scala.collection.mutable.PriorityQueue.empty(StateOrder)
     // alternate between choosing a node to expand, checking to see if it is a goal state, and adding its successors to the frontier
+    List()
   }
 }
