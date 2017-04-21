@@ -14,6 +14,16 @@ class Line(_start: Point, _end: Point) {
     intersectsHelper(line, excludeEnds = true)
   }
 
+  override def toString: String = {
+    "line("+this.start().toString+", "+this.end().toString+")"
+  }
+  override def equals(obj: scala.Any): Boolean = {
+    obj match {
+      case obj: Line => this._start == this._end
+      case _ => false
+    }
+  }
+
   def intersectsHelper(line: Line, excludeEnds: Boolean): Boolean = {
     // Use x1-x4, y1-y4 to make it consistent with the source formula located here:
     // https://en.wikipedia.org/wiki/Line%E2%80%93line_intersection

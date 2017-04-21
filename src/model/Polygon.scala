@@ -8,6 +8,26 @@ class Polygon(sides: Line*) {
     throw new IllegalArgumentException("Polygons must have at least 3 sides.")
   }
 
+  val rotatedOnce: Seq[Line] = rotate(sides)
+  var rotatedAround: Seq[Line] = Nil
+  for (a <- 1 until sides.length) {
+    if (rotatedAround == Nil) {
+      rotatedAround = rotate(sides)
+    } else {
+      rotatedAround = rotate(rotatedAround)
+    }
+  }
+
+  (rotatedOnce, sides, rotatedAround).zipped.toList.foreach(tuple => {
+    sides.foreach(side => {
+      if (side != tuple._1 && side != tuple._2 && side != tuple._3 && tuple._2.intersects(side)) {
+        throw new IllegalArgumentException("Two non-adjacent sides intersect each other: "+
+          tuple._2.toString + ", " + side.toString)
+      }
+    })
+  })
+
+
   // Check to make sure that adjacent sides connect.
   val zippedSides: Seq[Line Tuple2 Line] = for ( (a, b) <- sides zip rotate(sides) ) yield Tuple2(a, b)
   zippedSides.foreach( tuple => {
@@ -23,7 +43,8 @@ class Polygon(sides: Line*) {
     lst match {
       case head +: tail => tail++Seq(head)
       case head +: Seq() => Seq(head)
-      case Seq() => throw new IllegalArgumentException("Input cannot be Nil")
+      case Seq() => Seq()
+      case Nil => throw new IllegalArgumentException("Input cannot be Nil")
     }
   }
 }
