@@ -10,5 +10,7 @@ package model
 
 trait State {
 	def successors(): List[(State,Double)]
-	def isGoalState(): Boolean
+	def isGoalState: Boolean
+
+	def asString: String
 }

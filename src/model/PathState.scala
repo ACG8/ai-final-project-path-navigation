@@ -18,4 +18,5 @@ class PathState(grid: Grid, _position: Point, goals: Point*) extends State {
     successors
   }
   def position() = _position
+  def asString: String = position().toString
 }
