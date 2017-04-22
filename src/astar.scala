@@ -1,5 +1,7 @@
 import model.State
 
+import scala.collection.mutable
+
 /**
   * Created by Ananda on 4/18/2017.
   */
@@ -19,19 +21,21 @@ object astar {
 	// start is the starting state and h is the heuristic function
   def astar(start: State, h: State => Double): List[State] = {
   	// store the state-cost tuples in a priority queue ordered by cost ascending
-    var frontier = scala.collection.mutable.PriorityQueue.empty(StateOrder)
+    var frontier: mutable.PriorityQueue[(List[State], Double, Double)] = mutable.PriorityQueue.empty(StateOrder)
     frontier += ((List(start),h(start),0.0)) //start at the start node
-    var path = List.empty //our solution
+    var path: List[State] = List.empty //our solution
     // alternate between choosing a node to expand, checking to see if it is a goal state, and adding its successors to the frontier
     while (!frontier.isEmpty && path.isEmpty) {
-    	val current_path,_,g = frontier.head
-    	val current_state = current_path._1.head
+    	val current_path: List[State] = frontier.head._1
+      val g: Double = frontier.head._3
+    	val current_state = current_path.head
     	frontier = frontier.tail
     	//g is the cost of getting to the current state
     	if (current_state.isGoalState)
-   			path = current_path._1.reverse
+   			path = current_path.reverse
     	else
-    		frontier += current_state.successors map({ case (s, c) => (s::current_path, c + g + h(s), c + g) })
+    		frontier = frontier ++ current_state.successors().map( tuple => {
+          (tuple._1::current_path, tuple._2 + g + h(tuple._1), tuple._2 + g) })
     }
     path
   }
