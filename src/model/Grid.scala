@@ -14,11 +14,13 @@ class Grid(maxX: Int, maxY: Int, polygons:Polygon*) extends Iterable[Polygon] {
   // Make sure all polygons fall within the bounds of the grid.
   polygons.foreach(p => {
     p.foreach(line => {
-      if (line.start().x() > maxX || line.start().x() < 0 || line.start().y() > maxY || line.start().y() < 0) {
-        throw new IllegalArgumentException("A line was out of bound: "+line.toString)
+      if (line.start.x > maxX || line.start.x < 0 || line.start.y > maxY || line.start.y < 0 ||
+              line.end.x > maxX || line.end.x < 0 || line.end.y > maxY || line.end.y < 0) {
+        throw new IllegalArgumentException("A line was out of bounds: "+line.toString)
       }
     })
   })
+
 
   // If any polygon in the grid overlaps a given line
   def overlaps(line: Line): Boolean = {
@@ -31,14 +33,8 @@ class Grid(maxX: Int, maxY: Int, polygons:Polygon*) extends Iterable[Polygon] {
   }
 
   // gets a list of all points in the grid.
-  def allPoints: List[Point] = {
-    var points: List[Point] = List()
-    for (x <- List.range(0, maxX + 1)) {
-      for (y <- List.range(0, maxY + 1)) {
-        points = points ++ List(new Point(x, y))
-      }
-    }
-    points
+  def allVertices: Set[Point] = {
+    this.flatMap(poly => poly.vertices).toSet
   }
 
   // iterating over a grid iterates over its polygons

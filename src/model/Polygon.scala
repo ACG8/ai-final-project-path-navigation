@@ -16,39 +16,32 @@ class Polygon(sides: Line*) extends Iterable[Line] {
     })
   })
 
+  def vertices: Set[Point] = {
+    this.flatMap(line => List(line.start, line.end)).toSet
+  }
+
   override def iterator: Iterator[Line] = {
     sides.iterator
   }
 
   // Check to make sure that adjacent sides connect.
   val zippedSides: Seq[Line Tuple2 Line] = for ( (a, b) <- sides zip rotate(sides) ) yield Tuple2(a, b)
-  zippedSides.foreach( tuple => {
-    if (tuple._1.end().x() != tuple._2.start().x()) {
+  zippedSides.foreach { case (a, b) =>
+    if (a.end.x != b.start.x) {
       throw new IllegalArgumentException("The X coordinates of two consecutive sides are not equal.")
     }
-    if (tuple._1.end().y() != tuple._2.start().y()) {
+    if (a.end.y != b.start.y) {
       throw new IllegalArgumentException("The Y coordinates of two consecutive sides are not equal")
     }
-  })
+  }
 
   def intersects(line: Line): Boolean = {
-    this.foreach(pLine => {
-      if (line.intersects(pLine)) {
-        return false
-      }
-    })
-    true
+    this.map(pLine => line.intersects(pLine)).reduce(_ || _)
   }
 
   def overlaps(polygon: Polygon): Boolean = {
-    polygon.foreach(aLine => {
-      this.foreach(bLine => {
-        if (aLine.intersects(bLine)) {
-          return true
-        }
-      })
-    })
-    false
+    (for {p1 <- this.toList; p2 <- polygon.toList} yield (p1, p2)) // gets the cross product of lines in each polygon
+      .map{ case (a, b) => a.intersects(b) }.reduce(_ || _)
   }
 
   private def rotate(lst: Seq[Line]): Seq[Line] = {

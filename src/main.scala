@@ -1,4 +1,4 @@
-import model.{Line, PathState, Point, Polygon}
+import model.{Line, Point, Polygon}
 import tests.modelTests
 
 object main {
