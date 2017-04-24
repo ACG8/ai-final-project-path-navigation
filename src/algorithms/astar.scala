@@ -35,10 +35,12 @@ object astar {
     	if (current_state.isGoalState)
    			path = current_path.reverse
     	else
-    		frontier = frontier ++ current_state.successors().map{ case tuple:(T,Double) => {
-          (tuple._1::current_path, tuple._2 + g + h(tuple._1), tuple._2 + g)
-      }}
-    }
+        frontier = frontier ++ current_state
+          .successors()
+          .map{
+            case tuple:(T,Double) => (tuple._1::current_path, tuple._2 + g + h(tuple._1), tuple._2 + g)
+          }
+      }
     path
   }
 }

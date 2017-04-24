@@ -33,7 +33,13 @@ object astarTests {
       val field = grid(0,10)
       val start_state = pathstate(field,start,end)
       val path = astar(start_state,PathState.cartesianH)
-      println(path)
+      println("  grid is empty 10x10 arena")
+      println("  start: " + start)
+      println("  goal: " + end)
+      path match {
+        case Nil => println("  no path found")
+        case _ => println("  found path: " + path)
+      }
     })
   )
 

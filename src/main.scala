@@ -7,7 +7,9 @@ object main {
   }
 
   def runTests(): Unit = {
+    println("== MODEL TESTS ==")
     modelTests.runTests()
+    println("== A STAR TESTS ==")
     astarTests.runTests()
   }
 }
