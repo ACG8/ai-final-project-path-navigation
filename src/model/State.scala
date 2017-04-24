@@ -8,9 +8,8 @@ package model
   * 2. If they are a goal state or not
   */
 
-trait State {
-	def successors(): List[(State,Double)]
+trait State[T <: State[T]] {
+	def successors(): List[(T,Double)]
 	def isGoalState: Boolean
-
 	def asString: String
 }
