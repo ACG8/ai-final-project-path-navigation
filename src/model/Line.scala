@@ -6,10 +6,6 @@ package model
 class Line(_start: Point, _end: Point) {
   def start: Point = _start
   def end: Point = _end
-
-  if (start == end) {
-    throw new IllegalArgumentException("The start point cannot be the same as the end point.")
-  }
   
   def vertices: Set[Point] = {
     Set(start, end)

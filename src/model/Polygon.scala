@@ -3,8 +3,27 @@ package model
 /**
   * Created by agieg on 4/19/2017.
   */
-class Polygon(sides: Line*) extends Iterable[Line] {
-  if (sides.length < 3) {
+object Polygon {
+
+  def convert_to_lines(lines: Seq[Point Tuple2 Point]): Seq[Line] = {
+    lines.map {case (a,b) => new Line(a,b)}
+  }
+  private def rotate[T](lst: Seq[T]): Seq[T] = {
+    lst match {
+      case head +: tail => tail++Seq(head)
+      case head +: Seq() => Seq(head)
+      case Seq() => Seq()
+      case Nil => throw new IllegalArgumentException("Input cannot be Nil")
+    }
+  }
+}
+class Polygon(_sides: Line*) extends Iterable[Line] {
+  val sides = _sides
+  def this(points: List[Point]) {
+    this( Polygon.convert_to_lines(points zip Polygon.rotate(points)):_* )
+  }
+
+  if (sides.length != 1 && sides.length < 3) {
     throw new IllegalArgumentException("Polygons must have at least 3 sides.")
   }
 
@@ -25,7 +44,7 @@ class Polygon(sides: Line*) extends Iterable[Line] {
   }
 
   // Check to make sure that adjacent sides connect.
-  val zippedSides: Seq[Line Tuple2 Line] = for ( (a, b) <- sides zip rotate(sides) ) yield Tuple2(a, b)
+  val zippedSides: Seq[Line Tuple2 Line] = for ( (a, b) <- sides zip Polygon.rotate(sides) ) yield Tuple2(a, b)
   zippedSides.foreach { case (a, b) =>
     if (a.end.x != b.start.x) {
       throw new IllegalArgumentException("The X coordinates of two consecutive sides are not equal.")
@@ -44,12 +63,5 @@ class Polygon(sides: Line*) extends Iterable[Line] {
       .map{ case (a, b) => a.intersects(b) }.reduce(_ || _)
   }
 
-  private def rotate(lst: Seq[Line]): Seq[Line] = {
-    lst match {
-      case head +: tail => tail++Seq(head)
-      case head +: Seq() => Seq(head)
-      case Seq() => Seq()
-      case Nil => throw new IllegalArgumentException("Input cannot be Nil")
-    }
-  }
+
 }
