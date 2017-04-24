@@ -1,3 +1,5 @@
+package algorithms
+
 import model.State
 
 import scala.collection.mutable
