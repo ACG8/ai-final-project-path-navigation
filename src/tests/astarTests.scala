@@ -30,10 +30,24 @@ object astarTests {
     new Test("trivialCase", () => {
       val start = point(0,0)
       val end = point(10,10)
-      val field = grid(0,10)
+      val field = grid(10,10,polygon(start),polygon(end))
       val start_state = pathstate(field,start,end)
       val path = astar(start_state,PathState.cartesianH)
       println("  grid is empty 10x10 arena")
+      println("  start: " + start)
+      println("  goal: " + end)
+      path match {
+        case Nil => println("  no path found")
+        case _ => println("  found path: " + path)
+      }
+    }),
+    new Test("lesstrivialCase", () => {
+      val start = point(0,0)
+      val end = point(10,10)
+      val field = grid(10,10,polygon(start),polygon(point(5,2),point(3,8),point(4,6)),polygon(end))
+      val start_state = pathstate(field,start,end)
+      val path = astar(start_state,PathState.cartesianH)
+      println("  grid is 10x10 arena with polygon (5,2),(3,8),(4,6)")
       println("  start: " + start)
       println("  goal: " + end)
       path match {
@@ -51,8 +65,8 @@ object astarTests {
     new Line(start, end)
   }
 
-  def polygon(sides: Line*): Polygon = {
-    new Polygon(sides:_*)
+  def polygon(points: Point*): Polygon = {
+    new Polygon(points.toList)
   }
 
   def grid(maxX: Int, maxY: Int, polygons: Polygon*): Grid = {

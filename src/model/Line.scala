@@ -90,10 +90,6 @@ class Line(_start: Point, _end: Point) {
     val intersectsThis = !(thisXOutOfBounds && thisYOutOfBounds)
     val intersectsLine = !(lineXOutOfBounds && lineYOutOfBounds)
     val intersects = intersectsThis && intersectsLine
-    if (intersects) {
-      println(this)
-      println(line)
-    }
     intersects
   }
 
