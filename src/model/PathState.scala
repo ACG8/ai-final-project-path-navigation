@@ -2,17 +2,19 @@ package model
 
 /**
   * Created by agieg on 4/18/2017.
+  *
+  * We assume that there is only 1 goal state, as per the instructions
   */
-class PathState(grid: Grid, _position: Point, goals: Point*) extends State[PathState] {
+class PathState(grid: Grid, _position: Point, goal: Point) extends State[PathState] {
   def position = _position
 
-  def isGoalState: Boolean = goals.contains(position)
+  def isGoalState: Boolean = goal == position
 
   // The second value is the cost of reaching the state from the current state.
   def successors: List[(PathState,Double)] = {
     grid.allVertices.map(v => new Line(position, v)) // all lines from current position to possible vertices
       .filter(line => !grid.overlaps(line))
-      .map(line => (new PathState(grid, line.end, goals: _*), line.length)).toList
+      .map(line => (new PathState(grid, line.end, goal), line.length)).toList
   }
   def asString: String = position.toString
 }
