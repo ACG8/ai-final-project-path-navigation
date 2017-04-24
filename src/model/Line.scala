@@ -67,18 +67,38 @@ class Line(_start: Point, _end: Point) {
     val yIntersection = yIntersectionNumerator.toDouble/denominator.toDouble
 
     // Decide if the X intersection occurs outside the line
-    val greaterX = Math.max(Math.max(this.start.x, this.end.x), Math.max(line.start.x, line.end.x))
-    val lesserX = Math.min(Math.min(this.start.x, this.end.x), Math.min(line.start.x, line.end.x))
+    val thisGreaterX = Math.max(this.start.x, this.end.x)
+    val thisLesserX = Math.min(this.start.x, this.end.x)
     // ends don't count as intersecting
-    val xOutOfBounds = xIntersection <= lesserX || xIntersection >= greaterX
+    val thisXOutOfBounds = xIntersection <= thisLesserX || xIntersection >= thisGreaterX
 
     // Determine if the Y intersection occurs outside the line
-    val greaterY = Math.max(Math.max(this.start.y, this.end.y), Math.max(line.start.y, line.end.y))
-    val lesserY = Math.min(Math.min(this.start.y, this.end.y), Math.min(line.start.y, line.end.y))
-    val yOutOfBounds = yIntersection <= lesserY || yIntersection >= greaterY
+    val thisGreaterY = Math.max(this.start.y, this.end.y)
+    val thisLesserY = Math.min(this.start.y, this.end.y)
+    val thisYOutOfBounds = yIntersection <= thisLesserY || yIntersection >= thisGreaterY
+    // BREAK
+    val lineGreaterX = Math.max(line.start.x, line.end.x)
+    val lineLesserX = Math.min(line.start.x, line.end.x)
+    // ends don't count as intersecting
+    val lineXOutOfBounds = xIntersection <= lineLesserX || xIntersection >= lineGreaterX
 
-    // If neither point on the intersection is outside this line then the intersection occurs on the line.
-    !(xOutOfBounds || yOutOfBounds)
+    // Determine if the Y intersection occurs outside the line
+    val lineGreaterY = Math.max(line.start.y, line.end.y)
+    val lineLesserY = Math.min(line.start.y, line.end.y)
+    val lineYOutOfBounds = yIntersection <= lineLesserY || yIntersection >= lineGreaterY
+    
+    
+
+    // If one point on the intersection is outside this line then the intersection occurs on the line.
+    // One of the points can be outside the line.
+    val intersectsThis = !(thisXOutOfBounds && thisYOutOfBounds)
+    val intersectsLine = !(lineXOutOfBounds && lineYOutOfBounds)
+    val intersects = intersectsThis && intersectsLine
+    if (intersects) {
+      println(this)
+      println(line)
+    }
+    intersects
   }
 
   override def toString: String = {

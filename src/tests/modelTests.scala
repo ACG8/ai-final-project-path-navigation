@@ -72,6 +72,12 @@ object modelTests {
       val first = line(point(1, 5), point(5, 5))
       val second = line(point(5, 5), point(2, 3))
       assert(!first.intersects(second), "Lines that meet at an end should not intersect.")
+    }),
+    new Test("polygons that touch at corner should not intersect.", () => {
+      val a = polygon(line(point(1, 1), point(3, 1)), line(point(3, 1), point(2, 3)), line(point(2, 3), point(1, 1)))
+      val b = polygon(line(point(2, 3), point(4, 3)), line(point(4, 3), point(3, 4)), line(point(3, 4), point(2, 3)))
+
+      assert(!a.overlaps(b), "These polygons should not overlap.")
     })
   )
 
