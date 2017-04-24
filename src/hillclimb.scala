@@ -15,10 +15,17 @@ object hillclimb {
     case 0 => h(n)
     case j => n.successors().map( m => bestKDescendant(m, k - 1, h) ).min()
   }
-  def next[T <: State[T]](n: T, k : Int, h: T => Double): List[T] = {
+  def next[T <: State[T]](n: T, k : Int, h: T => Double): (T, Double) = {
     n.successors().map( m => (m, bestKDescendant(m, k-1, h) ).reduceLeft( case ((m1, h1), (m2, h2)) => if (h1 < h2) (m1, h1) else (m2, h2) )
   }
-  def hillclimb[T <: State[T]](start: T, h: T => Double): List[T] = {
-    Nil
+  def hillclimb[T <: State[T]](start: T, k: Int, h: T => Double): List[T] = {
+	def hillclimbHelper[T <: State[T]](h: T=> Double, k: Int, path: List[T]): List[T] = {
+      val nxt = next(h, k, path.head)
+      nxt match {
+	    (s, 0.0) => (s :: path).reverse()
+        (s, other) => if (other >= path.head._2) path.reverse() else hillclimbHelper(h, k, s :: path)
+      }
+    }
+    hillclimbHelper(h, k, List(start))
   }
 }
