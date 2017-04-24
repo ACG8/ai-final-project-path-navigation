@@ -40,10 +40,7 @@ object modelTests {
     }),
     new Test("validTriangle", () => {
       try {
-        val first = line(point(0, 0), point(0, 4))
-        val second = line(point(0, 4), point(2, 3))
-        val third = line(point(2, 3), point(0, 0))
-        new Polygon(first, second, third)
+        poly(point(0,0), point(0,4), point(2,3))
       } catch {
         case e: Throwable => assert(assertion = false, "An exception should not have been thrown: "+e.getMessage)
       }
@@ -74,19 +71,19 @@ object modelTests {
       assert(!first.intersects(second), "Lines that meet at an end should not intersect.")
     }),
     new Test("polygons that touch at corner should not intersect.", () => {
-      val a = polygon(line(point(1, 1), point(3, 1)), line(point(3, 1), point(2, 3)), line(point(2, 3), point(1, 1)))
-      val b = polygon(line(point(2, 3), point(4, 3)), line(point(4, 3), point(3, 4)), line(point(3, 4), point(2, 3)))
+      val a = poly(point(1, 1), point(3, 1), point(2, 3))
+      val b = poly(point(2, 3), point(4, 3), point(3, 4))
 
       assert(!a.overlaps(b), "These polygons should not overlap.")
     }),
     new Test("polygons that share a line should not intersect.", () => {
-      val a = polygon(line(point(5,1), point(5,2)), line(point(5,2),point(4,2)), line(point(4,2), point(5,1)))
-      val b = polygon(line(point(5,3), point(5,2)), line(point(5,2), point(4,2)), line(point(4,2), point(5,3)))
+      val a = poly(point(5,1), point(5,2), point(4,2))
+      val b = poly(point(5,3), point(5,2), point(4,2))
       assert(!a.overlaps(b), "Polygons that share a line but do not overlap otherwise should not overlap.")
     }),
     new Test("overlapping polgyons", () => {
-      val a = polygon(line(point(0,2), point(2,2)), line(point(2,2), point(2,0)), line(point(2,0), point(0,2)))
-      val b = polygon(line(point(0,3), point(0,1)), line(point(0,1), point(2,1)), line(point(2,1), point(0,3)))
+      val a = poly(point(0,2), point(2,2), point(2,0))
+      val b = poly(point(0,3), point(0,1), point(2,1))
       assert(a.overlaps(b), "These polygons should overlap.")
     })
   )
@@ -101,5 +98,9 @@ object modelTests {
 
   def polygon(sides: Line*): Polygon = {
     new Polygon(sides:_*)
+  }
+
+  def poly(points: Point*): Polygon = {
+    new Polygon(points.toList)
   }
 }

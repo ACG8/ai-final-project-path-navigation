@@ -11,5 +11,5 @@ package model
 trait State[T <: State[T]] {
 	def successors(): List[(T,Double)]
 	def isGoalState: Boolean
-	def asString: String
+	def toString: String
 }

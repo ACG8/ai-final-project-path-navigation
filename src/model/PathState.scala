@@ -14,11 +14,14 @@ class PathState(grid: Grid, _position: Point, _goal: Point) extends State[PathSt
 
   // The second value is the cost of reaching the state from the current state.
   def successors: List[(PathState,Double)] = {
-    grid.allVertices.map(v => new Line(position, v)) // all lines from current position to possible vertices
+    grid.allVertices.filter(_ != _position)
+      .map(v => new Line(position, v)) // all lines from current position to possible vertices
       .filter(line => !grid.overlaps(line))
       .map(line => (new PathState(grid, line.end, goal), line.length)).toList
   }
-  def asString: String = position.toString
+  def String: String = position.toString
+
+  override def toString: String = position.toString
 }
 
 /**
