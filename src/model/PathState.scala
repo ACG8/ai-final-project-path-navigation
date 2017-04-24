@@ -5,8 +5,10 @@ package model
   *
   * We assume that there is only 1 goal state, as per the instructions
   */
-class PathState(grid: Grid, _position: Point, goal: Point) extends State[PathState] {
+
+class PathState(grid: Grid, _position: Point, _goal: Point) extends State[PathState] {
   def position = _position
+  def goal = _goal
 
   def isGoalState: Boolean = goal == position
 
@@ -17,4 +19,17 @@ class PathState(grid: Grid, _position: Point, goal: Point) extends State[PathSta
       .map(line => (new PathState(grid, line.end, goal), line.length)).toList
   }
   def asString: String = position.toString
+
+  /**
+    * Below are heuristic functions associated with PathState
+    */
+
+  val cartesianH: PathState => Double = (state: PathState) => {
+    val (x0,y0) = (state.position.x,state.position.y)
+    val (x1,y1) = (state.goal.x,state.goal.y)
+    val (dx,dy) = (x1-x0,y1-y0)
+    Math.sqrt(dx*dx+dy*dy)
+  }
+
 }
+
