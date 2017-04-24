@@ -78,6 +78,16 @@ object modelTests {
       val b = polygon(line(point(2, 3), point(4, 3)), line(point(4, 3), point(3, 4)), line(point(3, 4), point(2, 3)))
 
       assert(!a.overlaps(b), "These polygons should not overlap.")
+    }),
+    new Test("polygons that share a line should not intersect.", () => {
+      val a = polygon(line(point(5,1), point(5,2)), line(point(5,2),point(4,2)), line(point(4,2), point(5,1)))
+      val b = polygon(line(point(5,3), point(5,2)), line(point(5,2), point(4,2)), line(point(4,2), point(5,3)))
+      assert(!a.overlaps(b), "Polygons that share a line but do not overlap otherwise should not overlap.")
+    }),
+    new Test("overlapping polgyons", () => {
+      val a = polygon(line(point(0,2), point(2,2)), line(point(2,2), point(2,0)), line(point(2,0), point(0,2)))
+      val b = polygon(line(point(0,3), point(0,1)), line(point(0,1), point(2,1)), line(point(2,1), point(0,3)))
+      assert(a.overlaps(b), "These polygons should overlap.")
     })
   )
 
