@@ -19,17 +19,17 @@ class PathState(grid: Grid, _position: Point, _goal: Point) extends State[PathSt
       .map(line => (new PathState(grid, line.end, goal), line.length)).toList
   }
   def asString: String = position.toString
-
-  /**
-    * Below are heuristic functions associated with PathState
-    */
-
-  val cartesianH: PathState => Double = (state: PathState) => {
-    val (x0,y0) = (state.position.x,state.position.y)
-    val (x1,y1) = (state.goal.x,state.goal.y)
-    val (dx,dy) = (x1-x0,y1-y0)
-    Math.sqrt(dx*dx+dy*dy)
-  }
-
 }
 
+/**
+  * Below are heuristic functions associated with PathState
+  */
+
+object PathState {
+    val cartesianH: PathState => Double = (state) => {
+      val (x0,y0) = (state.position.x,state.position.y)
+      val (x1,y1) = (state.goal.x,state.goal.y)
+      val (dx,dy) = (x1-x0,y1-y0)
+      Math.sqrt(dx*dx+dy*dy)
+    }
+}

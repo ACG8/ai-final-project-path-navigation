@@ -1,7 +1,7 @@
 package tests
 
 import model.{Line, Point, Polygon, Grid, PathState}
-import algorithms.astar
+import algorithms.astar._
 
 /**
   * Created by Ananda on 4/24/2017.
@@ -32,6 +32,8 @@ object astarTests {
       val end = point(10,10)
       val field = grid(0,10)
       val start_state = pathstate(field,start,end)
+      val path = astar(start_state,PathState.cartesianH)
+      println(path)
     })
   )
 
