@@ -38,7 +38,7 @@ object astar {
         frontier = frontier ++ current_state
           .successors()
           .map{
-            case tuple:(T,Double) => (tuple._1::current_path, tuple._2 + g + h(tuple._1), tuple._2 + g)
+            case (next,relative_cost) => (next::current_path, relative_cost + g + h(next), relative_cost + g)
           }
       }
     path
