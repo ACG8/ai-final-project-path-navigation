@@ -3,6 +3,12 @@ package model
 /**
   * Created by agieg on 4/19/2017.
   */
+
+object Line {
+  def getPoints(lines: List[Line]): List[Point] = {
+    lines.flatMap(l => List(l.start, l.end))
+  }
+}
 class Line(_start: Point, _end: Point) {
   def start: Point = _start
   def end: Point = _end
@@ -93,15 +99,25 @@ class Line(_start: Point, _end: Point) {
     intersects
   }
 
-  def split(): (Line, Line) = {
-    val x1 = start.x.toDouble
-    val x2 = end.x.toDouble
-    val y1 = start.y.toDouble
-    val y2 = end.y.toDouble
+  // If a line cuts a polygon
+  def cuts(p: Polygon, maxX: Int, maxY: Int): Boolean = {
+    val minLength = 0.1
+    val (a, b, point) = this.split()
+    if (point.inside(p, maxX, maxY)) return true
+
+    if (a.length < 0.1 || b.length < 0.1) return false
+    a.cuts(p, maxX, maxY) || b.cuts(p, maxX, maxY)
+  }
+
+  def split(): (Line, Line, Point) = {
+    val x1 = start.x
+    val x2 = end.x
+    val y1 = start.y
+    val y2 = end.y
 
     val midpoint = new Point((x1+x2)/2, (y1+y2)/2)
 
-    (new Line(start, midpoint), new Line(midpoint, end))
+    (new Line(start, midpoint), new Line(midpoint, end), midpoint)
   }
 
   override def toString: String = {

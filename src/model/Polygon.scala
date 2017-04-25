@@ -35,9 +35,8 @@ class Polygon(_sides: Line*) extends Iterable[Line] {
     })
   })
 
-  def inside(p :Point, maxX: Int, maxY: Int): Boolean = {
-    val ray: Line = new Line(p, new Point(maxX+1, maxY+1))
-    sides.map(side => ray.intersects(side)).count(x => x) % 2 == 0
+  def contains(line: Line): Boolean = {
+    sides.contains(line)
   }
 
   def vertices: Set[Point] = {
@@ -66,6 +65,14 @@ class Polygon(_sides: Line*) extends Iterable[Line] {
   def overlaps(polygon: Polygon): Boolean = {
     (for {p1 <- this.toList; p2 <- polygon.toList} yield (p1, p2)) // gets the cross product of lines in each polygon
       .map{ case (a, b) => a.intersects(b) }.reduce(_ || _)
+  }
+
+  // Two polygons are equal if all their lines are in the same order.
+  override def equals(obj: scala.Any): Boolean = {
+    obj match {
+      case obj: Polygon => (obj.sides zip this.sides).map {case (a,b) => a == b}.reduce(_&&_)
+      case _ => false
+    }
   }
 
 

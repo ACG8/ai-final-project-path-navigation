@@ -33,6 +33,10 @@ class Grid(maxX: Int, maxY: Int, polygons:Polygon*) extends Iterable[Polygon] {
     false
   }
 
+  def getPolygonsContainingLine(line: Line): List[Polygon] = {
+    polygons.filter(p => p.contains(line)).toList
+  }
+
   // gets a list of all points in the grid.
   def allVertices: Set[Point] = {
     this.flatMap(poly => poly.vertices).toSet

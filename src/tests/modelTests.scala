@@ -85,6 +85,11 @@ object modelTests {
       val a = poly(point(0,2), point(2,2), point(2,0))
       val b = poly(point(0,3), point(0,1), point(2,1))
       assert(a.overlaps(b), "These polygons should overlap.")
+    }),
+    new Test("vertex not inside", () => {
+      val p = point(0,2)
+      val a = poly(p, point(2,2), point(2,0))
+      assert(!p.inside(a, 10 , 10), "vertex should not be inside")
     })
   )
 

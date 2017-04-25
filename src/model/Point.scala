@@ -17,4 +17,10 @@ class Point(_x: Double, _y: Double ){
       case _ => false
     }
   }
+
+  def inside(p :Polygon, maxX: Int, maxY: Int): Boolean = {
+    val ray: Line = new Line(this, new Point(maxX+1, maxY+1))
+    val intersections = p.map(side => ray.intersects(side)).count(x => x)
+    intersections % 2 == 1
+  }
 }
