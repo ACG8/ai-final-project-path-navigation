@@ -4,6 +4,7 @@ package model
   * Created by agieg on 4/19/2017.
   */
 class Grid(maxX: Int, maxY: Int, polygons:Polygon*) extends Iterable[Polygon] {
+  val dimensions = (maxX, maxY)
   // No two polygons should overlap. Intersecting polygons can always be represented as
   polygons.foreach(a => polygons.foreach(b => {
     if (a.overlaps(b)) {
