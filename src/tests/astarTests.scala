@@ -30,7 +30,7 @@ object astarTests {
   val end = point(9,9)
 
   val tests: List[Test] = List(
-    new Test("The Trivial Case", () => {
+    new Test("Trivial Case", () => {
       val field = grid(10,10,polygon(start),polygon(end))
       val start_state = pathstate(field,start,end)
       val path = astar(start_state,PathState.cartesianH)
@@ -72,6 +72,21 @@ object astarTests {
         case _ => {
           println("  found path: " + path)
           PathState.drawSolution("centersquare",field,path)
+        }
+      }
+    }),
+    new Test("Grazed Triangle", () => {
+      val field = grid(10,10,polygon(start),polygon(point(3,3),point(7,3),point(7,7)),polygon(end))
+      val start_state = pathstate(field,start,end)
+      val path = astar(start_state,PathState.cartesianH)
+      println("  grid is a 10x10 arena with a triangle grazing the optimal path")
+      println("  start: " + start)
+      println("  goal: " + end)
+      path match {
+        case Nil => println("  no path found")
+        case _ => {
+          println("  found path: " + path)
+          PathState.drawSolution("grazedtriangle",field,path)
         }
       }
     })
