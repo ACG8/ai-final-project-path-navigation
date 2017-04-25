@@ -35,6 +35,11 @@ class Polygon(_sides: Line*) extends Iterable[Line] {
     })
   })
 
+  def inside(p :Point, maxX: Int, maxY: Int): Boolean = {
+    val ray: Line = new Line(p, new Point(maxX+1, maxY+1))
+    sides.map(side => ray.intersects(side)).count(x => x) % 2 == 0
+  }
+
   def vertices: Set[Point] = {
     this.flatMap(line => List(line.start, line.end)).toSet
   }

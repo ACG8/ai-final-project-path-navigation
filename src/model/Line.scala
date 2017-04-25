@@ -97,6 +97,17 @@ class Line(_start: Point, _end: Point) {
     intersects
   }
 
+  def split(): (Line, Line) = {
+    val x1 = start.x.toDouble
+    val x2 = end.x.toDouble
+    val y1 = start.y.toDouble
+    val y2 = end.y.toDouble
+
+    val midpoint = new Point((x1+x2)/2, (y1+y2)/2)
+
+    (new Line(start, midpoint), new Line(midpoint, end))
+  }
+
   override def toString: String = {
     "line("+this.start.toString+", "+this.end.toString+")"
   }
