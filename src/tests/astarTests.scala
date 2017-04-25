@@ -52,7 +52,10 @@ object astarTests {
       println("  goal: " + end)
       path match {
         case Nil => println("  no path found")
-        case _ => println("  found path: " + path)
+        case _ => {
+          println("  found path: " + path)
+          PathState.drawSolution("lesstrivialcase",field,path)
+        }
       }
     })
   )
