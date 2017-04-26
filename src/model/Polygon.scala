@@ -8,6 +8,8 @@ object Polygon {
   def convert_to_lines(lines: Seq[Point Tuple2 Point]): Seq[Line] = {
     lines.map {case (a,b) => new Line(a,b)}
   }
+
+  // helper method that "rotates" as sequence e.g. (1, 2, 3, 4) => (2, 3, 4, 1)
   private def rotate[T](lst: Seq[T]): Seq[T] = {
     lst match {
       case head +: tail => tail++Seq(head)
@@ -19,12 +21,17 @@ object Polygon {
 }
 class Polygon(_sides: Line*) extends Iterable[Line] {
   val sides = _sides
+  // Helper method to build polygon from points
   def this(points: List[Point]) {
     this( Polygon.convert_to_lines(points zip Polygon.rotate(points)):_* )
   }
 
   if (sides.length != 1 && sides.length < 3) {
-    throw new IllegalArgumentException("Polygons must have at least 3 sides.")
+    throw new IllegalArgumentException("Polygons must have at least 3 sides or exactly one side")
+  }
+
+  if ((sides.length == 1) && (sides.head.start != sides.head.end)) {
+    throw new IllegalArgumentException("A polygon with one side must have that 'side' be a point.")
   }
 
   sides.foreach(a => {
@@ -35,10 +42,17 @@ class Polygon(_sides: Line*) extends Iterable[Line] {
     })
   })
 
+  // If a polygon contains a line.
   def contains(line: Line): Boolean = {
     sides.contains(line)
   }
 
+  // If a polygon contains a point.
+  def contains(point: Point): Boolean = {
+    sides.flatMap(line => List(line.start, line.end)).contains(point)
+  }
+
+  // The set of all points that make up the polygon.
   def vertices: Set[Point] = {
     this.flatMap(line => List(line.start, line.end)).toSet
   }
@@ -58,10 +72,24 @@ class Polygon(_sides: Line*) extends Iterable[Line] {
     }
   }
 
-  def intersects(line: Line): Boolean = {
-    this.map(pLine => line.intersects(pLine)).reduce(_ || _)
+  def intersectsNotIncludingPoint(line: Line, point: Point, includeEnds: Boolean): Boolean = {
+    this.filter(line => line.start != point && line.end != point)
+      .map(pLine => line.intersects(pLine, includeEnds))
+      .reduce(_ || _)
+
   }
 
+  def intersects(line: Line): Boolean = {
+    intersects(line, includeEnds = false)
+  }
+
+  // if a line intersects any of a polygons lines
+  def intersects(line: Line, includeEnds: Boolean): Boolean = {
+    this.map(pLine => line.intersects(pLine, includeEnds)).reduce(_ || _)
+
+  }
+
+  // if one polygon overlaps another
   def overlaps(polygon: Polygon): Boolean = {
     (for {p1 <- this.toList; p2 <- polygon.toList} yield (p1, p2)) // gets the cross product of lines in each polygon
       .map{ case (a, b) => a.intersects(b) }.reduce(_ || _)

@@ -26,6 +26,7 @@ object modelTests {
     }
   }
 
+
   val tests: List[Test] = List(
     new Test("nonConnectingEnds", () => {
       try {
@@ -85,12 +86,37 @@ object modelTests {
       val a = poly(point(0,2), point(2,2), point(2,0))
       val b = poly(point(0,3), point(0,1), point(2,1))
       assert(a.overlaps(b), "These polygons should overlap.")
-    }),
-    new Test("vertex not inside", () => {
-      val p = point(0,2)
-      val a = poly(p, point(2,2), point(2,0))
-      assert(!p.inside(a, 10 , 10), "vertex should not be inside")
     })
+//    new Test("vertex not inside", () => {
+//      val p = point(0,2)
+//      val a = poly(p, point(2,2), point(2,0))
+//      assert(!p.inside(a, 10 , 10), "vertex should not be inside")
+//    }),
+//    new Test("line cuts square", () => {
+//      val square = poly(point(0, 0), point(0, 2), point(2, 2), point(2, 0))
+//      val line: Line = new Line(new Point(0, 0), new Point(2, 2))
+//      assert(line.cuts(square, 3, 3), "line should cut square")
+//    }),
+//    new Test("vertex inside", () => {
+//      val square = poly(new Point(0, 0), new Point(0, 2), new Point(2, 2), new Point(2, 0))
+//      val point: Point = new Point(1, 1)
+//      assert(point.inside(square, 4, 4), "point should be inside square")
+//    })
+//    new Test("vertex outside 1", () => {
+//      val square = poly(new Point(0, 0), new Point(0, 2), new Point(2, 2), new Point(2, 0))
+//      val point: Point = new Point(2, 2)
+//      assert(!point.inside(square, 4, 4), "point should be outside square")
+//    }),
+//    new Test("vertex outside 2", () => {
+//      val square = poly(new Point(1, 1), new Point(1, 3), new Point(3, 3), new Point(3, 1))
+//      val point: Point = new Point(1, 1)
+//      assert(!point.inside(square, 0, 0), "point should be outside square")
+//    }),
+//    new Test("line intersects when ends count", () => {
+//      val line2 = new Line(point(5, 2), point(5, 5))
+//      val line = new Line(point(0, 0), point(5, 5))
+//      assert(line.intersects(line2, includeEnds = true), "point should intersect when vertices matter")
+//    })
   )
 
   def point(x: Int, y: Int): Point = {

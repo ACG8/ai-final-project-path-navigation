@@ -20,7 +20,14 @@ class Point(_x: Double, _y: Double ){
 
   def inside(p :Polygon, maxX: Int, maxY: Int): Boolean = {
     val ray: Line = new Line(this, new Point(maxX+1, maxY+1))
-    val intersections = p.map(side => ray.intersects(side)).count(x => x)
-    intersections % 2 == 1
+    val intersections = p.filter(side => ray.intersects(side, includeEnds = true))
+      .map(side => ray.getIntersection(side))
+    val vertexIntersections = intersections.count(point => p.contains(point))
+    // We can have one vertex intersection without it counting at all.
+    val adjustedVertexIntersections = Math.max(vertexIntersections-2, 0)
+    val nonVertexIntersections = intersections.count(point => !p.contains(point))
+    val total = adjustedVertexIntersections/2 + nonVertexIntersections
+    println("Total: "+total)
+    total % 2 == 1
   }
 }

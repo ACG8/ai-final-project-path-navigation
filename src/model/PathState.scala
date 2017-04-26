@@ -25,6 +25,22 @@ class PathState(grid: Grid, _position: Point, _goal: Point) extends State[PathSt
   }
   def String: String = position.toString
 
+  def intersectsNonNeighborOnSamePolygon(line: Line): Boolean = {
+    nonNeighborsOnSamePolygon(line.start).exists(point => line.intersects(point))
+  }
+
+  def onSamePolygon(a: Point, b: Point): Boolean = {
+    grid.getPolygonsContainingPoint(a).exists(poly => grid.getPolygonsContainingPoint(b).contains(poly))
+  }
+
+  def nonNeighborsOnSamePolygon(a: Point): Set[Point] = {
+    grid.allVertices.filter(point => !isNeighbor(a, point) && onSamePolygon(a, point) && point != a)
+  }
+
+  def isNeighbor(a: Point, b: Point): Boolean = {
+    grid.getNeighbors(a).contains(b)
+  }
+
   override def toString: String = position.toString
 }
 
