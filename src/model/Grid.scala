@@ -27,6 +27,12 @@ class Grid(maxX: Int, maxY: Int, _polygons:Polygon*) extends Iterable[Polygon] {
   // If any polygon in the grid overlaps a given line
   def overlaps(line: Line): Boolean = {
     this.foreach(poly => {
+      poly.foreach(side => {
+        if ( line.intersects(side.start, includeEnds = false) || line.intersects(side.end, includeEnds = false) ) {
+          // return true if the line intersects a polygons vertex on any point on the line except for the line's ends.
+          return true
+        }
+      })
       if (poly.intersects(line)) {
         return true
       }

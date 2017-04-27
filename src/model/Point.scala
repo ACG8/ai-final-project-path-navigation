@@ -37,12 +37,6 @@ class Point(_x: Double, _y: Double ){
 
     // if the ray is starting on a vertex of the polygon
     val startOnVertex: Boolean = p.exists(side => this==side.start || this==side.end)
-    println(startOnVertex)
-
-    // total number of vertex intersections. If we're starting at a vertex it doesn't count.
-    //val vertexIntersections = intersections.count(point => p.contains(point)) - (if (startOnVertex) 2 else 0)
-    println(intersections.size)
-    //println(vertexIntersections)
 
     // The total number of intersections, counting vertex intersections as one intersection instead of 2.
     val total = intersections.size - (if (startOnVertex) 1 else 0)

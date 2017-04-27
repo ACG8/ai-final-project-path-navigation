@@ -69,9 +69,17 @@ class Line(_start: Point, _end: Point) {
     new Point(xIntersection, yIntersection)
   }
 
+  def intersects(point: Point): Boolean = {
+    intersects(point, includeEnds = true)
+  }
+
   // Simple check for if a point intersects a line. If your point is B and your line is (A, C) then
   // (A, B) + (B, C) means (A, C) intersects B
-  def intersects(point: Point): Boolean = {
+  def intersects(point: Point, includeEnds: Boolean): Boolean = {
+    // If we're not including ends then return false if the point we're checking is an end.
+    if (!includeEnds && (point == this.start || point == this.end)) {
+      return false
+    }
     new Line(this.start, point).length + new Line(point, this.end).length == this.length
   }
 
@@ -129,6 +137,11 @@ class Line(_start: Point, _end: Point) {
     intersects
   }
 
+  def midpointIsInside(p: Polygon): Boolean = {
+    val (_, _, point) = this.split()
+    point.inside(p)
+  }
+
   // If a line cuts a polygon
   def cuts(p: Polygon): Boolean = {
     val minLength = 0.1
@@ -138,7 +151,6 @@ class Line(_start: Point, _end: Point) {
     while (true) {
       val (a, b, point) = queue.dequeue()
       if (point.inside(p)) return true
-
       if (a.length < minLength || b.length < minLength) return false
       queue.enqueue(a.split())
       queue.enqueue(b.split())
