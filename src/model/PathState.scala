@@ -11,22 +11,24 @@ import java.awt.geom._
   */
 
 class PathState(grid: Grid, _position: Point, _goal: Point) extends State[PathState] {
-  def position = _position
-  def goal = _goal
+  val position:Point = _position
+  val goal:Point = _goal
 
   def isGoalState: Boolean = goal == position
 
   // The second value is the cost of reaching the state from the current state.
   def successors: List[(PathState,Double)] = {
-    grid.allVertices.filter(_ != _position)
-      .filter(v => isNeighbor(position, v) || !onSamePolygon(position, v))
+    grid.allVertices.filter(_ != position)
       .map(v => new Line(position, v)) // all lines from current position to possible vertices
       .filter(line => !grid.overlaps(line))
-      //.filter(line => !grid.polygons.exists(poly => line.midpointIsInside(poly))) // filter out all lines that appear inside a polygon.
+      .filter(line => !grid.polygons.exists(poly => line.midpointIsInside(poly))) // filter out all lines that appear inside a polygon.
       .map(line => (new PathState(grid, line.end, goal), line.length)).toList
   }
   def String: String = position.toString
 
+  def intersectsNonNeighborOnSamePolygon(line: Line): Boolean = {
+    nonNeighborsOnSamePolygon(line.start).exists(point => line.intersects(point))
+  }
 
   def onSamePolygon(a: Point, b: Point): Boolean = {
     grid.getPolygonsContainingPoint(a).exists(poly => grid.getPolygonsContainingPoint(b).contains(poly))
@@ -67,7 +69,7 @@ object PathState {
     val start = path.head.position
     val end = path.last.position
     // TODO: Should adjust scale depending on size of inputs
-    val scale = 100
+    val scale = 1000/grid.dimensions._1
     val goalsize = 0.3
 
     // Size of image

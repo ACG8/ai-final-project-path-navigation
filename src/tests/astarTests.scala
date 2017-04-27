@@ -129,7 +129,7 @@ object astarTests {
         polygon(point(700,410),point(700,502),point(778,548),point(858,509),point(858,410),point(788,351)),
         polygon(point(791,115),point(791,115),point(851,77),point(897,127),point(873,364)),
         polygon(point(920,84)))
-      val start_state = pathstate(field,point(2,2),end)
+      val start_state = pathstate(field,point(62,487),point(920,84))
       val path = astar(start_state,PathState.cartesianH)
       println("  this test case looks familiar...we have a 1000x572 grid")
       println("  start: " + point(62,487))
@@ -138,7 +138,7 @@ object astarTests {
         case Nil => println("  no path found")
         case _ =>
           println("  found path: " + path)
-          PathState.drawSolution("backtrack",field,path)
+          PathState.drawSolution("dejavu",field,path)
       }
     })
   )
