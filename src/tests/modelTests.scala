@@ -8,11 +8,7 @@ import model.{Line, Point, Polygon}
 object modelTests {
 
   def runTests(): Unit = {
-    //runTestsHelper(tests)
-    //runTestsHelper(insideTests)
-    //runTestsHelper(lineSplitTests)
-    //runTestsHelper(cutsTests)
-    //runTestsHelper(midpointIsInsideTests)
+    runTestsHelper(tests)
     runTestsHelper(centerSquareTests)
   }
 
