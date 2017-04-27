@@ -7,8 +7,8 @@ import scala.collection.mutable
   */
 
 object Line {
-  def getPoints(lines: List[Line]): List[Point] = {
-    lines.flatMap(l => List(l.start, l.end))
+  def getPoints(lines: List[Line]): Set[Point] = {
+    lines.flatMap(l => List(l.start, l.end)).toSet
   }
 }
 class Line(_start: Point, _end: Point) {
@@ -69,6 +69,8 @@ class Line(_start: Point, _end: Point) {
     new Point(xIntersection, yIntersection)
   }
 
+  // Simple check for if a point intersects a line. If your point is B and your line is (A, C) then
+  // (A, B) + (B, C) means (A, C) intersects B
   def intersects(point: Point): Boolean = {
     new Line(this.start, point).length + new Line(point, this.end).length == this.length
   }
@@ -128,15 +130,14 @@ class Line(_start: Point, _end: Point) {
   }
 
   // If a line cuts a polygon
-  def cuts(p: Polygon, maxX: Int, maxY: Int): Boolean = {
-    println("RUNNING CUTS")
+  def cuts(p: Polygon): Boolean = {
     val minLength = 0.1
     val x = this.split()
     val queue: mutable.Queue[(Line, Line, Point)] = new mutable.Queue
     queue.enqueue(x)
     while (true) {
       val (a, b, point) = queue.dequeue()
-      if (point.inside(p, maxX, maxY)) return true
+      if (point.inside(p)) return true
 
       if (a.length < minLength || b.length < minLength) return false
       queue.enqueue(a.split())
