@@ -36,7 +36,7 @@ object astar {
    			path = current_path.reverse
     	else
         frontier = frontier ++ current_state
-          .successors()
+          .successors
           .map{
             case (next,relative_cost) => (next::current_path, relative_cost + g + h(next), relative_cost + g)
           }

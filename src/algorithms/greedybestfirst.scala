@@ -35,7 +35,7 @@ object greedybestfirst {
    			path = current_path.reverse
     	else
         frontier = frontier ++ current_state
-          .successors()
+          .successors
           .map{
             case (next,_) => (next::current_path, h(next))
           }
