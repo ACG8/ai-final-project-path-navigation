@@ -1,6 +1,6 @@
-import model.State
+package algorithms
 
-import scala.collection.mutable
+import model.State
 
 /**
   * Created by Richard on 4/24/2017
