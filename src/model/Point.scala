@@ -3,9 +3,9 @@ package model
 /**
   * Created by agieg on 4/19/2017.
   */
-class Point(_x: Double, _y: Double ){
-  def x: Double = _x
-  def y: Double = _y
+class Point(_x: Int, _y: Int ){
+  def x: Int = _x
+  def y: Int = _y
 
   override def toString: String = {
     "("+this.x+", "+this.y+")"
@@ -18,28 +18,30 @@ class Point(_x: Double, _y: Double ){
     }
   }
 
-  def inside(p :Polygon): Boolean = {
-    val pointsInPolygon: Set[Point] = p.flatMap(line => List(line.start, line.end)).toSet
-    val maxX = pointsInPolygon.map(p => p.x).max + 5
-    val maxY = pointsInPolygon.map(p => p.y).max + 5
-    if (pointsInPolygon.contains(this)) {
-      // Points on a vertex do not count as being inside.
-      return false
-    }
-    if (p.sides.exists(_.intersects(this))) {
-      // Points on a line of the polygon are considered to be outside the polygon.
-      return false
-    }
-    val ray: Line = new Line(this, new Point(maxX+1, maxY+1))
-    // total number of intersections including, vertex intersection will only count once bec
-    val intersections: Set[Point] = p.filter(side => ray.intersects(side, includeEnds = true))
-      .map(side => ray.getIntersection(side)).toSet
-
-    // if the ray is starting on a vertex of the polygon
-    val startOnVertex: Boolean = p.exists(side => this==side.start || this==side.end)
-
-    // The total number of intersections, counting vertex intersections as one intersection instead of 2.
-    val total = intersections.size - (if (startOnVertex) 1 else 0)
-    total % 2 == 1
-  }
+//  def inside(p :Polygon): Boolean = {
+//    val pointsInPolygon: Set[Point] = p.flatMap(line => List(line.start, line.end)).toSet
+//    val maxX = pointsInPolygon.map(p => p.x).max + 5
+//    val maxY = pointsInPolygon.map(p => p.y).max + 5
+//    if (pointsInPolygon.contains(this)) {
+//      // Points on a vertex do not count as being inside.
+//      return false
+//    }
+//    if (p.sides.exists(_.intersects(this))) {
+//      // Points on a line of the polygon are considered to be outside the polygon.
+//      return false
+//    }
+//    val ray: Line = new Line(this, new Point(maxX+1, maxY+1))
+//    // total number of intersections including, vertex intersection will only count once bec
+//    val intersections: Set[Point] = p.filter(side => ray.intersects(side, includeEnds = true))
+//      .map(side => ray.getIntersection(side)).toSet
+//    println(intersections)
+//
+//    // if the ray is starting on a vertex of the polygon
+//    val startOnVertex: Boolean = p.exists(side => this==side.start || this==side.end)
+//    println(startOnVertex)
+//    // The total number of intersections, counting vertex intersections as one intersection instead of 2.
+//    val total = intersections.size - (if (startOnVertex) 1 else 0)
+//    println(total)
+//    total % 2 == 1
+//  }
 }

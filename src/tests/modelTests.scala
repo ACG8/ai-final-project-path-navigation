@@ -11,7 +11,9 @@ object modelTests {
     //runTestsHelper(tests)
     //runTestsHelper(insideTests)
     //runTestsHelper(lineSplitTests)
-    runTestsHelper(cutsTests)
+    //runTestsHelper(cutsTests)
+    //runTestsHelper(midpointIsInsideTests)
+    runTestsHelper(centerSquareTests)
   }
 
   def runTestsHelper(tests: List[Test]): Unit = {
@@ -33,71 +35,90 @@ object modelTests {
     }
   }
 
-  val cutsTests: List[Test] = List(
-    new Test("line cuts square", () => {
-      val square = poly(point(0, 0), point(0, 2), point(2, 2), point(2, 0))
-      val line: Line = new Line(new Point(0, 0), new Point(2, 2))
-      assert(line.cuts(square), "line should cut square")
+  val centerSquareTests: List[Test] = List(
+    new Test("test1", () => {
+      val square = new Polygon(List(point(3,3),point(7,3),point(7,7),point(3,7)))
+      val l = new Line(point(3, 3), point(9, 9))
+      //assert(l.intersects(point(7,7), includeEnds = false))
     })
   )
 
-  // Tests for Point.inside()
-  val insideTests: List[Test] = List(
-    new Test("vertex not inside", () => {
-      val p = point(0,2)
-      val a = poly(p, point(2,2), point(2,0))
-      assert(!p.inside(a), "vertex should not be inside")
-    }),
-    new Test("vertex inside", () => {
-      val square = poly(new Point(0, 0), new Point(0, 2), new Point(2, 2), new Point(2, 0))
-      val point: Point = new Point(1, 1)
-      assert(point.inside(square), "point should be inside square")
-    }),
-    new Test("vertex outside 1", () => {
-      val square = poly(new Point(0, 0), new Point(0, 2), new Point(2, 2), new Point(2, 0))
-      val point: Point = new Point(2, 2)
-      assert(!point.inside(square), "point should be outside square")
-    }),
-    new Test("vertex outside 2", () => {
-      val square = poly(new Point(1, 1), new Point(1, 3), new Point(3, 3), new Point(3, 1))
-      val point: Point = new Point(1, 1)
-      assert(!point.inside(square), "point should be outside square")
-    }),
-    new Test("point on line is outside", () => {
-      val square = poly(new Point(1, 1), new Point(3, 1), new Point(3, 3), new Point(1, 3))
-      val point: Point = new Point(2, 1)
-      assert(!point.inside(square))
-    }),
-    new Test("diamond polygon inside test", () => {
-      val square = poly(new Point(1, 2), new Point(2, 1), new Point(3, 2), new Point(2, 3))
-      val point: Point = new Point(2, 2)
-      assert(point.inside(square))
-    })
-  )
+//  val cutsTests: List[Test] = List(
+//    new Test("line cuts square", () => {
+//      val square = poly(point(0, 0), point(0, 2), point(2, 2), point(2, 0))
+//      val line: Line = new Line(new Point(0, 0), new Point(2, 2))
+//      assert(line.cuts(square), "line should cut square")
+//    })
+//  )
 
-  val lineSplitTests: List[Test] = List(
-    new Test("horizontal split test",() => {
-      val l = line(point(0, 0), point(0, 4))
-      val (a, b, p) = l.split()
-      assert(p == point(0, 2),"Point returned should be (0, 2), actual="+p)
-      assert(a == line((0, 0), (0, 2)), "Line should be (0,0) to (0,2), actual: " +a)
-      assert(b == line((0, 2), (0, 4)), "Line should be (0,2) to (0,4), acutal: "+b)
-    }),
-    new Test("vertical split test", () => {
-      val l = line(point(0, 0), point(4, 0))
-      val (a, b, p) = l.split()
-      assert(p == point(2, 0),"Point returned should be (2,0), actual="+p)
-      assert(a == line((0, 0), (2, 0)), "Line should be (0,0) to (2,0), actual: " +a)
-      assert(b == line((2, 0), (4, 0)), "Line should be (2,0) to (4,0), acutal: "+b)
-    }),
-    new Test("diagonal split test", () => {
-      val l = line(point(0, 0), point(4, 4))
-      val (a, b, p) = l.split()
-      assert(p == point(2, 2),"Point returned should be (2,2), actual="+p)
-      assert(a == line((0, 0), (2, 2)), "Line should be (0,0) to (2,2), actual: " +a)
-      assert(b == line((2, 2), (4, 4)), "Line should be (2,2) to (4,4), acutal: "+b)
-    })
-  )
+//  // Tests for Point.inside()
+//  val insideTests: List[Test] = List(
+//    new Test("vertex not inside", () => {
+//      val p = point(0,2)
+//      val a = poly(p, point(2,2), point(2,0))
+//      assert(!p.inside(a), "vertex should not be inside")
+//    }),
+//    new Test("vertex inside", () => {
+//      val square = poly(new Point(0, 0), new Point(0, 2), new Point(2, 2), new Point(2, 0))
+//      val point: Point = new Point(1, 1)
+//      assert(point.inside(square), "point should be inside square")
+//    }),
+//    new Test("vertex outside 1", () => {
+//      val square = poly(new Point(0, 0), new Point(0, 2), new Point(2, 2), new Point(2, 0))
+//      val point: Point = new Point(2, 2)
+//      assert(!point.inside(square), "point should be outside square")
+//    }),
+//    new Test("vertex outside 2", () => {
+//      val square = poly(new Point(1, 1), new Point(1, 3), new Point(3, 3), new Point(3, 1))
+//      val point: Point = new Point(1, 1)
+//      assert(!point.inside(square), "point should be outside square")
+//    }),
+//    new Test("point on line is outside", () => {
+//      val square = poly(new Point(1, 1), new Point(3, 1), new Point(3, 3), new Point(1, 3))
+//      val point: Point = new Point(2, 1)
+//      assert(!point.inside(square))
+//    }),
+//    new Test("diamond polygon inside test", () => {
+//      val square = poly(new Point(1, 2), new Point(2, 1), new Point(3, 2), new Point(2, 3))
+//      val point: Point = new Point(2, 2)
+//      assert(point.inside(square))
+//    })
+//  )
+//
+//  val lineSplitTests: List[Test] = List(
+//    new Test("horizontal split test",() => {
+//      val l = line(point(0, 0), point(0, 4))
+//      val (a, b, p) = l.split()
+//      assert(p == point(0, 2),"Point returned should be (0, 2), actual="+p)
+//      assert(a == line((0, 0), (0, 2)), "Line should be (0,0) to (0,2), actual: " +a)
+//      assert(b == line((0, 2), (0, 4)), "Line should be (0,2) to (0,4), acutal: "+b)
+//    }),
+//    new Test("vertical split test", () => {
+//      val l = line(point(0, 0), point(4, 0))
+//      val (a, b, p) = l.split()
+//      assert(p == point(2, 0),"Point returned should be (2,0), actual="+p)
+//      assert(a == line((0, 0), (2, 0)), "Line should be (0,0) to (2,0), actual: " +a)
+//      assert(b == line((2, 0), (4, 0)), "Line should be (2,0) to (4,0), acutal: "+b)
+//    }),
+//    new Test("diagonal split test", () => {
+//      val l = line(point(0, 0), point(4, 4))
+//      val (a, b, p) = l.split()
+//      assert(p == point(2, 2),"Point returned should be (2,2), actual="+p)
+//      assert(a == line((0, 0), (2, 2)), "Line should be (0,0) to (2,2), actual: " +a)
+//      assert(b == line((2, 2), (4, 4)), "Line should be (2,2) to (4,4), acutal: "+b)
+//    })
+//  )
+//
+//  val midpointIsInsideTests = List(
+//    new Test("Backtrack polygon test", () => {
+//      val p = new Polygon(List(point(5, 6), point(2, 3), point(1, 3), point(1, 5), point(3, 5), point(5, 7),
+//        point(7, 5), point(5, 3), point(5, 1), point(3, 1), point(3, 2), point(6, 5)))
+//
+//      val l = new Line(point(6, 5), point(7, 5))
+//      assert(l.midpointIsInside(p))
+//
+//    })
+//  )
 
 
   val tests: List[Test] = List(

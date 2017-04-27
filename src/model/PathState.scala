@@ -19,16 +19,14 @@ class PathState(grid: Grid, _position: Point, _goal: Point) extends State[PathSt
   // The second value is the cost of reaching the state from the current state.
   def successors: List[(PathState,Double)] = {
     grid.allVertices.filter(_ != _position)
+      .filter(v => isNeighbor(position, v) || !onSamePolygon(position, v))
       .map(v => new Line(position, v)) // all lines from current position to possible vertices
       .filter(line => !grid.overlaps(line))
-      .filter(line => !grid.polygons.exists(poly => line.midpointIsInside(poly))) // filter out all lines that appear inside a polygon.
+      //.filter(line => !grid.polygons.exists(poly => line.midpointIsInside(poly))) // filter out all lines that appear inside a polygon.
       .map(line => (new PathState(grid, line.end, goal), line.length)).toList
   }
   def String: String = position.toString
 
-  def intersectsNonNeighborOnSamePolygon(line: Line): Boolean = {
-    nonNeighborsOnSamePolygon(line.start).exists(point => line.intersects(point))
-  }
 
   def onSamePolygon(a: Point, b: Point): Boolean = {
     grid.getPolygonsContainingPoint(a).exists(poly => grid.getPolygonsContainingPoint(b).contains(poly))
