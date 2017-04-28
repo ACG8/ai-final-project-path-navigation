@@ -23,10 +23,9 @@ object modelTests {
         test()
         println(name + " succeeded")
       } catch {
-        case t: Throwable => {
+        case t: Throwable =>
           println(name + " failed: " + t.getMessage)
           t.printStackTrace()
-        }
       }
     }
   }
@@ -179,7 +178,12 @@ object modelTests {
       val line2 = new Line(point(5, 2), point(5, 5))
       val line = new Line(point(0, 0), point(5, 5))
       assert(line.intersects(line2, includeEnds = true), "point should intersect when vertices matter")
-    })
+    }),
+    new Test("line intersects point", () => {
+      val vertex = point(1,1)
+      val intersector = line(point(0,0),point(2,2))
+      assert(intersector.intersects(vertex), "lines should intersect vertices")
+  })
   )
 
   def point(x: Int, y: Int): Point = {
