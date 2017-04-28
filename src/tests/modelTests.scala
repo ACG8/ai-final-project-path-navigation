@@ -31,11 +31,11 @@ object modelTests {
     }
   }
 
+
   val centerSquareTests: List[Test] = List(
     new Test("test1", () => {
-      val square = new Polygon(List(point(3,3),point(7,3),point(7,7),point(3,7)))
       val l = new Line(point(3, 3), point(9, 9))
-      //assert(l.intersects(point(7,7), includeEnds = false))
+      assert(l.intersects(point(7,7)))
     })
   )
 
@@ -115,8 +115,6 @@ object modelTests {
 //
 //    })
 //  )
-
-
   val tests: List[Test] = List(
     new Test("nonConnectingEnds", () => {
       try {

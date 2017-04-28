@@ -82,7 +82,7 @@ object astarTests {
         case Nil => println("  no path found")
         case _ =>
           println("  found path: " + path)
-          PathState.drawSolution("centerdiamond",field,path)
+          PathState.drawSolution("centersquarish",field,path)
       }
     }),
     new Test("Grazed Triangle", () => {

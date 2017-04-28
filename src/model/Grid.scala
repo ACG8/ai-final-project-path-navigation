@@ -23,29 +23,32 @@ class Grid(maxX: Int, maxY: Int, _polygons:Polygon*) extends Iterable[Polygon] {
     })
   })
 
-
   // If any polygon in the grid overlaps a given line
   def overlaps(line: Line): Boolean = {
+    // Do this ugly loop for efficiency.
     this.foreach(poly => {
-      val points: List[Point] = poly.flatMap(side => List(side.start, side.end)).toList
-      // Do this ugly loop for efficiency.
-      var containsStart = false
-      var containsEnd = false
-      points.foreach(p => {
-        containsStart = containsStart || p==line.start
-        containsEnd = containsEnd || p==line.end
-      })
-      // If the line moves from one point on the polygon to another on the same polygon.
-      val lineMovesAcrossPolygon = containsStart && containsEnd
       // If the line moves from one point along a polygon side.
       var lineTraversesSide = false
+      // If the current polygon (poly) contains the start point on the line.
+      var containsStart = false
+      // If the current polygon (poly) contains the end point on the line.
+      var containsEnd = false
       poly.foreach(side => {
+        // check if either point on this side is the line start or the line end.
+        containsStart = containsStart || side.start==line.start || side.end==line.start
+        containsEnd = containsEnd || side.end==line.end || side.end==line.end
+
+        if (line.intersects(side.start) || line.intersects(side.end)) {
+          return true
+        }
+
         lineTraversesSide = lineTraversesSide || line == side
         if ( line.intersects(side) ) {
           // return true if the line intersects any side of a polygon NOT including ends
           return true
         }
       })
+      val lineMovesAcrossPolygon = containsStart && containsEnd
       if (lineMovesAcrossPolygon && !lineTraversesSide) {
         return true
       }
