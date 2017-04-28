@@ -26,22 +26,23 @@ class Grid(maxX: Int, maxY: Int, _polygons:Polygon*) extends Iterable[Polygon] {
 
   // If any polygon in the grid overlaps a given line
   def overlaps(line: Line): Boolean = {
-    val sides = this.flatMap(poly => poly.sides)
-    val points = sides.flatMap(l => List(l.start, l.end))
-    //if (sides.count(side => side == line) > 1) return true
-    sides.foreach(side => {
-//      if ( line.intersects(side.start, includeEnds = false) || line.intersects(side.end, includeEnds = false) ) {
-//        // return true if the line intersects a polygons vertex on any point on the line except for the line's ends.
-//        return true
-//      }
-      if ( line.intersects(side) ) {
-        // return true if the line intersects any side of a polygon NOT including ends
+    this.foreach(poly => {
+      val points: List[Point] = poly.flatMap(side => List(side.start, side.end)).toList
+      // If the line moves from one point on the polygon to another on the same polygon.
+      val lineMovesAcrossPolygon = points.contains(line.start) && points.contains(line.end)
+      // If the line moves from one point along a polygon side.
+      var lineTraversesSide = false
+      poly.foreach(side => {
+        lineTraversesSide = lineTraversesSide || line == side
+        if ( line.intersects(side) ) {
+          // return true if the line intersects any side of a polygon NOT including ends
+          return true
+        }
+      })
+      if (lineMovesAcrossPolygon && !lineTraversesSide) {
         return true
       }
     })
-//      if (poly.intersects(line)) {
-//        return true
-//      }
     false
   }
 

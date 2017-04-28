@@ -14,10 +14,11 @@ object Line {
 class Line(_start: Point, _end: Point) {
   def start: Point = _start
   def end: Point = _end
-  
+
   def vertices: Set[Point] = {
     Set(start, end)
   }
+
 
   def isParallel(line: Line): Boolean = {
     val x1 = this.start.x
@@ -43,7 +44,7 @@ class Line(_start: Point, _end: Point) {
     Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2))
   }
 
-  def getIntersection(line: Line): (Double, Double) = {
+  def getIntersectionDenominatorAndXYNumerator(line: Line): (Int, Int, Int) = {
 
     // Use x1-x4, y1-y4 to make it consistent with the source formula located here:
     // https://en.wikipedia.org/wiki/Line%E2%80%93line_intersection
@@ -58,38 +59,24 @@ class Line(_start: Point, _end: Point) {
 
     val denominator = (x1 - x2)*(y3-y4) - (y1-y2)*(x3-x4)
 
-
     // Bits of these numerators could be factored out but I'm going to leave it as is so it's more explicit
     val xIntersectionNumerator = (x1*y2 - y1*x2)*(x3 - x4) - (x1 - x2)*(x3*y4 - y3*x4)
     val yIntersectionNumerator = (x1*y2 - y1*x2)*(y3 - y4) - (y1 - y2)*(x3*y4 - y3*x4)
+    (denominator, xIntersectionNumerator, yIntersectionNumerator)
+  }
 
+  def intersectsAtIntegerXY(line: Line): Boolean = {
+    val (denominator, xIntersectionNumerator, yIntersectionNumerator) = getIntersectionDenominatorAndXYNumerator(line)
+    (xIntersectionNumerator % denominator == 0) && (yIntersectionNumerator % denominator == 0)
+  }
+
+  def getIntersection(line: Line): (Double, Double) = {
+    val (denominator, xIntersectionNumerator, yIntersectionNumerator) = getIntersectionDenominatorAndXYNumerator(line)
     // calculate the (x, y) intersection
     val xIntersection = xIntersectionNumerator.toDouble/denominator.toDouble
     val yIntersection = yIntersectionNumerator.toDouble/denominator.toDouble
     (xIntersection, yIntersection)
   }
-
-//  def intersects(point: Point): Boolean = {
-//    intersects(point, includeEnds = true)
-//  }
-
-  // Simple check for if a point intersects a line. If your point is B and your line is (A, C) then
-  // (A, B) + (B, C) means (A, C) intersects B
-//  def intersects(point: Point, includeEnds: Boolean): Boolean = {
-//    // If we're not including ends then return false if the point we're checking is an end.
-//    if (!includeEnds && (point == this.start || point == this.end)) {
-//      return false
-//    }
-//
-//    val ab = new Line(this.start, point).length
-//    println(ab)
-//    val bc = new Line(point, this.end).length
-//    println(bc)
-//    val ac = this.length
-//    println(ac)
-//
-//    ab + bc == ac
-//  }
 
   def intersects(line: Line): Boolean = {
     intersects(line, includeEnds = false)
@@ -141,38 +128,38 @@ class Line(_start: Point, _end: Point) {
     intersects
   }
 
-//  def midpointIsInside(p: Polygon): Boolean = {
-//    val (_, _, point) = this.split()
-//    println(point)
-//    point.inside(p)
-//  }
+  //  def midpointIsInside(p: Polygon): Boolean = {
+  //    val (_, _, point) = this.split()
+  //    println(point)
+  //    point.inside(p)
+  //  }
 
-//  // If a line cuts a polygon
-//  def cuts(p: Polygon): Boolean = {
-//    val minLength = 0.1
-//    val x = this.split()
-//    val queue: mutable.Queue[(Line, Line, Point)] = new mutable.Queue
-//    queue.enqueue(x)
-//    while (true) {
-//      val (a, b, point) = queue.dequeue()
-//      if (point.inside(p)) return true
-//      if (a.length < minLength || b.length < minLength) return false
-//      queue.enqueue(a.split())
-//      queue.enqueue(b.split())
-//    }
-//    throw new IllegalStateException("This should be unreachable.")
-//  }
+  //  // If a line cuts a polygon
+  //  def cuts(p: Polygon): Boolean = {
+  //    val minLength = 0.1
+  //    val x = this.split()
+  //    val queue: mutable.Queue[(Line, Line, Point)] = new mutable.Queue
+  //    queue.enqueue(x)
+  //    while (true) {
+  //      val (a, b, point) = queue.dequeue()
+  //      if (point.inside(p)) return true
+  //      if (a.length < minLength || b.length < minLength) return false
+  //      queue.enqueue(a.split())
+  //      queue.enqueue(b.split())
+  //    }
+  //    throw new IllegalStateException("This should be unreachable.")
+  //  }
 
-//  def split(): (Line, Line, Point) = {
-//    val x1 = start.x
-//    val x2 = end.x
-//    val y1 = start.y
-//    val y2 = end.y
-//
-//    val midpoint = new Point((x1+x2)/2, (y1+y2)/2)
-//
-//    (new Line(start, midpoint), new Line(midpoint, end), midpoint)
-//  }
+  //  def split(): (Line, Line, Point) = {
+  //    val x1 = start.x
+  //    val x2 = end.x
+  //    val y1 = start.y
+  //    val y2 = end.y
+  //
+  //    val midpoint = new Point((x1+x2)/2, (y1+y2)/2)
+  //
+  //    (new Line(start, midpoint), new Line(midpoint, end), midpoint)
+  //  }
 
   override def toString: String = {
     "line("+this.start.toString+", "+this.end.toString+")"
