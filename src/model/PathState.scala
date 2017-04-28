@@ -21,7 +21,6 @@ class PathState(grid: Grid, _position: Point, _goal: Point) extends State[PathSt
     grid.allVertices.filter(_ != position)
       .map(v => new Line(position, v)) // all lines from current position to possible vertices
       .filter(line => !grid.overlaps(line))
-      //.filter(line => !grid.polygons.exists(poly => line.midpointIsInside(poly))) // filter out all lines that appear inside a polygon.
       .map(line => (new PathState(grid, line.end, goal), line.length)).toList
   }
   def String: String = position.toString

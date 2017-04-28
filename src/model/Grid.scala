@@ -28,8 +28,15 @@ class Grid(maxX: Int, maxY: Int, _polygons:Polygon*) extends Iterable[Polygon] {
   def overlaps(line: Line): Boolean = {
     this.foreach(poly => {
       val points: List[Point] = poly.flatMap(side => List(side.start, side.end)).toList
+      // Do this ugly loop for efficiency.
+      var containsStart = false
+      var containsEnd = false
+      points.foreach(p => {
+        containsStart = containsStart || p==line.start
+        containsEnd = containsEnd || p==line.end
+      })
       // If the line moves from one point on the polygon to another on the same polygon.
-      val lineMovesAcrossPolygon = points.contains(line.start) && points.contains(line.end)
+      val lineMovesAcrossPolygon = containsStart && containsEnd
       // If the line moves from one point along a polygon side.
       var lineTraversesSide = false
       poly.foreach(side => {

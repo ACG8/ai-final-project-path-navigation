@@ -128,39 +128,6 @@ class Line(_start: Point, _end: Point) {
     intersects
   }
 
-  //  def midpointIsInside(p: Polygon): Boolean = {
-  //    val (_, _, point) = this.split()
-  //    println(point)
-  //    point.inside(p)
-  //  }
-
-  //  // If a line cuts a polygon
-  //  def cuts(p: Polygon): Boolean = {
-  //    val minLength = 0.1
-  //    val x = this.split()
-  //    val queue: mutable.Queue[(Line, Line, Point)] = new mutable.Queue
-  //    queue.enqueue(x)
-  //    while (true) {
-  //      val (a, b, point) = queue.dequeue()
-  //      if (point.inside(p)) return true
-  //      if (a.length < minLength || b.length < minLength) return false
-  //      queue.enqueue(a.split())
-  //      queue.enqueue(b.split())
-  //    }
-  //    throw new IllegalStateException("This should be unreachable.")
-  //  }
-
-  //  def split(): (Line, Line, Point) = {
-  //    val x1 = start.x
-  //    val x2 = end.x
-  //    val y1 = start.y
-  //    val y2 = end.y
-  //
-  //    val midpoint = new Point((x1+x2)/2, (y1+y2)/2)
-  //
-  //    (new Line(start, midpoint), new Line(midpoint, end), midpoint)
-  //  }
-
   override def toString: String = {
     "line("+this.start.toString+", "+this.end.toString+")"
   }

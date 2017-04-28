@@ -27,13 +27,13 @@ class Polygon(_sides: Line*) extends Iterable[Line] {
   }
 
   def ccw(A:Point,B:Point,C:Point): Boolean = (C.y-A.y)*(B.x-A.x) > (B.y-A.y)*(C.x-A.x)
-  if (!sides
-    .iterator.sliding(2).toList
-    .map( pair => ccw(pair.head.start,pair.head.end,pair.last.end))
-    .forall( b => b==ccw(sides.last.start,sides.last.end,sides.head.end))
-  ) {
-    throw new IllegalArgumentException("Polygons must be convex. To make concave polygons, combine two or more convex polygons.")
-  }
+//  if (!sides
+//    .iterator.sliding(2).toList
+//    .map( pair => ccw(pair.head.start,pair.head.end,pair.last.end))
+//    .forall( b => b==ccw(sides.last.start,sides.last.end,sides.head.end))
+//  ) {
+//    throw new IllegalArgumentException("Polygons must be convex. To make concave polygons, combine two or more convex polygons.")
+//  }
 
   if (sides.length != 1 && sides.length < 3) {
     throw new IllegalArgumentException("Polygons must have at least 3 sides or exactly one side")
