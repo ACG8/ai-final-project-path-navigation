@@ -116,8 +116,11 @@ object astarTests {
     new Test("Backtrack", () => {
       val field = grid(10,10,
         polygon(point(2,2)),
-        polygon(point(5,6),point(2,3),point(1,3),point(1,5),point(3,5),point(5,7),
-                point(7,5),point(5,3),point(5,1),point(3,1),point(3,2),point(6,5)),
+        polygon(point(5,6),point(2,3),point(1,3),point(5,7)),
+        polygon(point(6,5),point(3,2),point(3,1),point(7,5)),
+        polygon(point(1,3),point(1,5),point(3,5)),
+        polygon(point(3,1),point(5,1),point(5,3)),
+        polygon(point(5,7),point(5,6),point(6,5),point(7,5)),
         polygon(end))
       val start_state = pathstate(field,point(2,2),end)
       val path = astar(start_state,PathState.cartesianH)
