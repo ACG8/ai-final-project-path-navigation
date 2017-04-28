@@ -25,6 +25,7 @@ class Grid(maxX: Int, maxY: Int, _polygons:Polygon*) extends Iterable[Polygon] {
 
   // If any polygon in the grid overlaps a given line
   def overlaps(line: Line): Boolean = {
+    var aPolygonContainsTheLine = false
     // Do this ugly loop for efficiency.
     this.foreach(poly => {
       // If the line moves from one point along a polygon side.
@@ -34,6 +35,11 @@ class Grid(maxX: Int, maxY: Int, _polygons:Polygon*) extends Iterable[Polygon] {
       // If the current polygon (poly) contains the end point on the line.
       var containsEnd = false
       poly.foreach(side => {
+        if (side == line && aPolygonContainsTheLine) {
+          return true
+        } else if (side == line) {
+          aPolygonContainsTheLine = true
+        }
         // check if either point on this side is the line start or the line end.
         containsStart = containsStart || side.start==line.start || side.end==line.start
         containsEnd = containsEnd || side.end==line.end || side.end==line.end
