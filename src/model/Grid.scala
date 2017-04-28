@@ -42,7 +42,7 @@ class Grid(maxX: Int, maxY: Int, _polygons:Polygon*) extends Iterable[Polygon] {
         }
         // check if either point on this side is the line start or the line end.
         containsStart = containsStart || side.start==line.start || side.end==line.start
-        containsEnd = containsEnd || side.end==line.end || side.end==line.end
+        containsEnd = containsEnd || side.start==line.end || side.end==line.end
 
         if (line.intersects(side.start) || line.intersects(side.end)) {
           return true
