@@ -11,6 +11,7 @@ object Line {
     lines.flatMap(l => List(l.start, l.end)).toSet
   }
 }
+
 class Line(_start: Point, _end: Point) {
   def start: Point = _start
   def end: Point = _end
@@ -19,6 +20,16 @@ class Line(_start: Point, _end: Point) {
     Set(start, end)
   }
 
+  def intersects(point:Point): Boolean ={
+    val (x0,x1,y0,y1,xp,yp) = (start.x,end.x,start.y,end.y,point.x,point.y)
+    val maxX = math.max(x0,x1)
+    val minX = math.min(x0,x1)
+    val maxY = math.max(y0,y1)
+    val minY = math.min(y0,y1)
+    (x0-x1)*(y0-yp)==(y0-y1)*(x0-xp) &&
+      !(xp>maxX || xp < minX || yp > maxY || yp < minY) &&
+      ( point != start) && (point != end)
+  }
 
   def isParallel(line: Line): Boolean = {
     val x1 = this.start.x
