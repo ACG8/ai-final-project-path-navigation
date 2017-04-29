@@ -118,17 +118,7 @@ object astarTests {
       }
     }),
     new Test("Deja Vu", () => {
-      val field = grid(1000,572,
-        polygon(point(62,487)),
-        polygon(point(100,425),point(100,550),point(500,550),point(500,425)),
-        polygon(point(60,196),point(203,66),point(295,189),point(220,351),point(83,322)),
-        polygon(point(352,167),point(300,366),point(410,366)),
-        polygon(point(417,78),point(514,67),point(583,137),point(417,233)),
-        polygon(point(513,301),point(636,399),point(554,480)),
-        polygon(point(605,80),point(770,80),point(770,340),point(605,340)),
-        polygon(point(700,410),point(700,502),point(778,548),point(858,509),point(858,410),point(788,351)),
-        polygon(point(791,115),point(791,115),point(851,77),point(897,127),point(873,364)),
-        polygon(point(920,84)))
+      val field = grids.dejaVu
       val start_state = pathstate(field,point(62,487),point(920,84))
       val path = astar(start_state,PathState.cartesianH)
       println("  this test case looks familiar...we have a 1000x572 grid")
@@ -138,7 +128,7 @@ object astarTests {
         case Nil => println("  no path found")
         case _ =>
           println("  found path: " + path)
-          PathState.drawSolution("dejavu",field,path)
+          PathState.drawSolution("dejavu",field,path, 10)
       }
     })
   )

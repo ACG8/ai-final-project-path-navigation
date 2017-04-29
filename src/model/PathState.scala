@@ -60,7 +60,7 @@ object PathState {
     *
     * This is not actually necessary, but helps us see what is happening
     */
-  def drawSolution(title: String, grid:Grid, path:List[PathState]): Unit = {
+  def drawSolution(title: String, grid:Grid, path:List[PathState], gridSpacing:Int = 1): Unit = {
     val start = path.head.position
     val end = path.last.position
     // TODO: Should adjust scale depending on size of inputs
@@ -82,12 +82,16 @@ object PathState {
 
     g.setColor(Color.LIGHT_GRAY)
     for (x <- 0 until grid.maxX.round) {
-      g.setStroke(new BasicStroke())  // reset to default
-      g.draw(new Line2D.Double(x*scale.round, 0, x*scale.round, grid.maxY.round*scale.round))
+      if (x%gridSpacing == 0) {
+        g.setStroke(new BasicStroke()) // reset to default
+        g.draw(new Line2D.Double(x * scale.round, 0, x * scale.round, grid.maxY.round * scale.round))
+      }
     }
     for (y <- 0 until grid.maxY.round) {
-      g.setStroke(new BasicStroke())  // reset to default
-      g.draw(new Line2D.Double(0, y*scale.round, grid.maxX.round*scale.round, y*scale.round))
+      if (y%gridSpacing == 0) {
+        g.setStroke(new BasicStroke()) // reset to default
+        g.draw(new Line2D.Double(0, y * scale.round, grid.maxX.round * scale.round, y * scale.round))
+      }
     }
 
     // enable anti-aliased rendering (prettier lines and circles)
@@ -101,11 +105,6 @@ object PathState {
         g.setStroke(new BasicStroke())  // reset to default
         g.draw(new Line2D.Double((line.start.x*scale).round, (line.start.y*scale).round, (line.end.x*scale).round, (line.end.y*scale).round))
       }
-
-
-
-
-
 
     // draw the path in green
     g.setColor(Color.GREEN)

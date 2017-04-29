@@ -3,6 +3,7 @@ package model
 /**
   * Created by agieg on 4/19/2017.
   */
+
 class Grid(_maxX: Int, _maxY: Int, _polygons:Polygon*) extends Iterable[Polygon] {
   val maxX = new Rational(_maxX, 1)
   val maxY = new Rational(_maxY, 1)
@@ -29,11 +30,8 @@ class Grid(_maxX: Int, _maxY: Int, _polygons:Polygon*) extends Iterable[Polygon]
   def overlaps(line: Line): Boolean = {
     // Do this ugly loop for efficiency.
     this.foreach(poly => {
-      if (line.midpoint.inside1(poly)) return true
+      //if (line.midpoint.inside1(poly)) return true
       poly.foreach(side => {
-        if (line.midpoint.inside1(poly)) {
-          return true
-        }
         if (line.intersects(side.start) || line.intersects(side.end)) {
           return true
         }

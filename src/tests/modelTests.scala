@@ -13,6 +13,7 @@ object modelTests {
     runTestsHelper(insideTests)
     runTestsHelper(midpointIsInsideTests)
     runTestsHelper(intersectionTests)
+    runTestsHelper(successorsTest)
   }
 
   def runTestsHelper(tests: List[Test]): Unit = {
@@ -33,21 +34,12 @@ object modelTests {
     }
   }
 
-
   val centerSquareTests: List[Test] = List(
     new Test("test1", () => {
       val l = new Line(point(3, 3), point(9, 9))
       assert(l.intersects(point(7,7)))
     })
   )
-
-  //  val cutsTests: List[Test] = List(
-  //    new Test("line cuts square", () => {
-  //      val square = poly(point(0, 0), point(0, 2), point(2, 2), point(2, 0))
-  //      val line: Line = new Line(new Point(0, 0), new Point(2, 2))
-  //      assert(line.cuts(square), "line should cut square")
-  //    })
-  //  )
 
   // Tests for Point.inside()
   val insideTests: List[Test] = List(
@@ -96,9 +88,30 @@ object modelTests {
         point(7, 5), point(5, 3), point(5, 1), point(3, 1), point(3, 2), point(6, 5)))
 
       val l = new Line(point(2, 3), point(5, 7))
-      assert(l.midpoint.inside1(p))
+      assert(l.midpoint.inside1(p), "midpoint should not be inside backtrack polygon")
+    }),
+    new Test("deja vu square test", () => {
+      val square = poly(point(100,425),point(100,550),point(500,550),point(500,425))
+      val a = new Line(new Point(100, 425), new Point(410, 366))
+      assert(!a.midpoint.inside1(square), "midpoint should not be in square")
+    }),
+    new Test("deja vu triangle test", () => {
+      val hexagon= poly(point(700,410),point(700,502),point(778,548),point(858,509),point(858,410),point(788,351))
+
+      val a = new Line(new Point(100, 425), new Point(410, 366))
+
+      assert(!a.midpoint.inside1(hexagon), "midpoint should not be in hexagon")
     })
   )
+
+  val successorsTest = List(
+    new Test("deja vu successors", () => {
+      val field = grids.dejaVu
+      val state = new PathState(field, new Point(100, 425), point(920,84))
+      assert(state.successors.exists{case (ps, cost) => ps.position == point(410,366)})
+    })
+  )
+
   val intersectionTests = List(
     new Test("intersection test", () => {
       val l1 = new Line((new Rational(13, 2), new Rational(5)), (new Rational(8), new Rational(8)))
