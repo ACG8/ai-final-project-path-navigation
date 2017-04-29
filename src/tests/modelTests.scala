@@ -41,13 +41,13 @@ object modelTests {
     })
   )
 
-//  val cutsTests: List[Test] = List(
-//    new Test("line cuts square", () => {
-//      val square = poly(point(0, 0), point(0, 2), point(2, 2), point(2, 0))
-//      val line: Line = new Line(new Point(0, 0), new Point(2, 2))
-//      assert(line.cuts(square), "line should cut square")
-//    })
-//  )
+  //  val cutsTests: List[Test] = List(
+  //    new Test("line cuts square", () => {
+  //      val square = poly(point(0, 0), point(0, 2), point(2, 2), point(2, 0))
+  //      val line: Line = new Line(new Point(0, 0), new Point(2, 2))
+  //      assert(line.cuts(square), "line should cut square")
+  //    })
+  //  )
 
   // Tests for Point.inside()
   val insideTests: List[Test] = List(
@@ -83,46 +83,21 @@ object modelTests {
       assert(point.inside1(square))
     })
   )
-
-//  val lineSplitTests: List[Test] = List(
-//    new Test("horizontal split test",() => {
-//      val l = line(point(0, 0), point(0, 4))
-//      val (a, b, p) = l.split()
-//      assert(p == point(0, 2),"Point returned should be (0, 2), actual="+p)
-//      assert(a == line((0, 0), (0, 2)), "Line should be (0,0) to (0,2), actual: " +a)
-//      assert(b == line((0, 2), (0, 4)), "Line should be (0,2) to (0,4), acutal: "+b)
-//    }),
-//    new Test("vertical split test", () => {
-//      val l = line(point(0, 0), point(4, 0))
-//      val (a, b, p) = l.split()
-//      assert(p == point(2, 0),"Point returned should be (2,0), actual="+p)
-//      assert(a == line((0, 0), (2, 0)), "Line should be (0,0) to (2,0), actual: " +a)
-//      assert(b == line((2, 0), (4, 0)), "Line should be (2,0) to (4,0), acutal: "+b)
-//    }),
-//    new Test("diagonal split test", () => {
-//      val l = line(point(0, 0), point(4, 4))
-//      val (a, b, p) = l.split()
-//      assert(p == point(2, 2),"Point returned should be (2,2), actual="+p)
-//      assert(a == line((0, 0), (2, 2)), "Line should be (0,0) to (2,2), actual: " +a)
-//      assert(b == line((2, 2), (4, 4)), "Line should be (2,2) to (4,4), acutal: "+b)
-//    })
-//  )
-//
   val midpointIsInsideTests = List(
-//    new Test("Backtrack polygon test", () => {
-//      val p = new Polygon(List(point(5, 6), point(2, 3), point(1, 3), point(1, 5), point(3, 5), point(5, 7),
-//        point(7, 5), point(5, 3), point(5, 1), point(3, 1), point(3, 2), point(6, 5)))
-//
-//      val l = new Line(point(6, 5), point(7, 5))
-//      assert(l.midpoint.inside1(p))
-//    }),
-  new Test("Backtrack polygon test2", () => {
-    val p = new Polygon(List(point(5, 6), point(2, 3), point(1, 3), point(1, 5), point(3, 5), point(5, 7),
-      point(7, 5), point(5, 3), point(5, 1), point(3, 1), point(3, 2), point(6, 5)))
+    new Test("Backtrack polygon test", () => {
+      val p = new Polygon(List(point(5, 6), point(2, 3), point(1, 3), point(1, 5), point(3, 5), point(5, 7),
+        point(7, 5), point(5, 3), point(5, 1), point(3, 1), point(3, 2), point(6, 5)))
 
-    val l = new Line(point(2, 3), point(5, 7))
-    assert(l.midpoint.inside1(p))
-  })
+      val l = new Line(point(6, 5), point(7, 5))
+      assert(l.midpoint.inside1(p))
+    }),
+    new Test("Backtrack polygon test2", () => {
+      val p = new Polygon(List(point(5, 6), point(2, 3), point(1, 3), point(1, 5), point(3, 5), point(5, 7),
+        point(7, 5), point(5, 3), point(5, 1), point(3, 1), point(3, 2), point(6, 5)))
+
+      val l = new Line(point(2, 3), point(5, 7))
+      assert(l.midpoint.inside1(p))
+    })
   )
   val intersectionTests = List(
     new Test("intersection test", () => {
@@ -193,16 +168,16 @@ object modelTests {
       val b = poly(point(0,3), point(0,1), point(2,1))
       assert(a.overlaps(b), "These polygons should overlap.")
     }),
-//    new Test("line intersects when ends count", () => {
-//      val line2 = new Line(point(5, 2), point(5, 5))
-//      val line = new Line(point(0, 0), point(5, 5))
-//      assert(line.intersects(line2, includeEnds = true), "point should intersect when vertices matter")
-//    }),
+    new Test("line intersects when ends count", () => {
+      val line2 = new Line(point(5, 2), point(5, 5))
+      val line = new Line(point(0, 0), point(5, 5))
+      assert(line.intersects(line2, includeEnds = true), "point should intersect when vertices matter")
+    }),
     new Test("line intersects point", () => {
       val vertex = point(1,1)
       val intersector = line(point(0,0),point(2,2))
       assert(intersector.intersects(vertex), "lines should intersect vertices")
-  })
+    })
   )
 
   def point(x: Int, y: Int): Point = {
