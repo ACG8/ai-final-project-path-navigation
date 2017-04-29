@@ -80,6 +80,16 @@ object PathState {
     g.setColor(Color.WHITE)
     g.fillRect(0, 0, canvas.getWidth, canvas.getHeight)
 
+    g.setColor(Color.LIGHT_GRAY)
+    for (x <- 0 until grid.maxX.round) {
+      g.setStroke(new BasicStroke())  // reset to default
+      g.draw(new Line2D.Double(x*scale.round, 0, x*scale.round, grid.maxY.round*scale.round))
+    }
+    for (y <- 0 until grid.maxY.round) {
+      g.setStroke(new BasicStroke())  // reset to default
+      g.draw(new Line2D.Double(0, y*scale.round, grid.maxX.round*scale.round, y*scale.round))
+    }
+
     // enable anti-aliased rendering (prettier lines and circles)
     g.setRenderingHint(java.awt.RenderingHints.KEY_ANTIALIASING,
       java.awt.RenderingHints.VALUE_ANTIALIAS_ON)
@@ -91,6 +101,8 @@ object PathState {
         g.setStroke(new BasicStroke())  // reset to default
         g.draw(new Line2D.Double((line.start.x*scale).round, (line.start.y*scale).round, (line.end.x*scale).round, (line.end.y*scale).round))
       }
+
+
 
 
 

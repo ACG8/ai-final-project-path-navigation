@@ -8,11 +8,11 @@ import model._
 object modelTests {
 
   def runTests(): Unit = {
-    runTestsHelper(tests)
-    runTestsHelper(centerSquareTests)
-    runTestsHelper(insideTests)
+    //runTestsHelper(tests)
+    //runTestsHelper(centerSquareTests)
+    //runTestsHelper(insideTests)
     runTestsHelper(midpointIsInsideTests)
-    runTestsHelper(intersectionTests)
+    //runTestsHelper(intersectionTests)
   }
 
   def runTestsHelper(tests: List[Test]): Unit = {
@@ -51,37 +51,37 @@ object modelTests {
 
   // Tests for Point.inside()
   val insideTests: List[Test] = List(
-//    new Test("vertex not inside", () => {
-//      val p = point(0,2)
-//      val a = poly(p, point(2,2), point(2,0))
-//      assert(!p.inside1(a), "vertex should not be inside")
-//    }),
+    new Test("vertex not inside", () => {
+      val p = point(0,2)
+      val a = poly(p, point(2,2), point(2,0))
+      assert(!p.inside1(a), "vertex should not be inside")
+    }),
     new Test("vertex inside", () => {
       val square = poly(new Point(0, 0), new Point(0, 2), new Point(2, 2), new Point(2, 0))
       val point: Point = new Point(1, 1)
       assert(point.inside1(square), "point should be inside square")
+    }),
+    new Test("vertex outside 1", () => {
+      val square = poly(new Point(0, 0), new Point(0, 2), new Point(2, 2), new Point(2, 0))
+      val point: Point = new Point(2, 2)
+      assert(!point.inside1(square), "point should be outside square")
+    }),
+    new Test("vertex outside 2", () => {
+      val square = poly(new Point(1, 1), new Point(1, 3), new Point(3, 3), new Point(3, 1))
+      val point: Point = new Point(1, 1)
+      assert(!point.inside1(square), "point should be outside square")
+    }),
+    new Test("point on line is outside", () => {
+      val square = poly(new Point(1, 1), new Point(3, 1), new Point(3, 3), new Point(1, 3))
+      val point: Point = new Point(2, 1)
+      assert(!point.inside1(square))
+    }),
+    new Test("diamond polygon inside test", () => {
+      val square = poly(new Point(1, 2), new Point(2, 1), new Point(3, 2), new Point(2, 3))
+      val field = new Grid(10, 10, square)
+      val point: Point = new Point(2, 2)
+      assert(point.inside1(square))
     })
-//    new Test("vertex outside 1", () => {
-//      val square = poly(new Point(0, 0), new Point(0, 2), new Point(2, 2), new Point(2, 0))
-//      val point: Point = new Point(2, 2)
-//      assert(!point.inside1(square), "point should be outside square")
-//    }),
-//    new Test("vertex outside 2", () => {
-//      val square = poly(new Point(1, 1), new Point(1, 3), new Point(3, 3), new Point(3, 1))
-//      val point: Point = new Point(1, 1)
-//      assert(!point.inside1(square), "point should be outside square")
-//    }),
-//    new Test("point on line is outside", () => {
-//      val square = poly(new Point(1, 1), new Point(3, 1), new Point(3, 3), new Point(1, 3))
-//      val point: Point = new Point(2, 1)
-//      assert(!point.inside1(square))
-//    }),
-//    new Test("diamond polygon inside test", () => {
-//      val square = poly(new Point(1, 2), new Point(2, 1), new Point(3, 2), new Point(2, 3))
-//      val field = new Grid(10, 10, square)
-//      val point: Point = new Point(2, 2)
-//      assert(point.inside1(square))
-//    })
   )
 
 //  val lineSplitTests: List[Test] = List(
@@ -109,14 +109,20 @@ object modelTests {
 //  )
 //
   val midpointIsInsideTests = List(
-    new Test("Backtrack polygon test", () => {
-      val p = new Polygon(List(point(5, 6), point(2, 3), point(1, 3), point(1, 5), point(3, 5), point(5, 7),
-        point(7, 5), point(5, 3), point(5, 1), point(3, 1), point(3, 2), point(6, 5)))
+//    new Test("Backtrack polygon test", () => {
+//      val p = new Polygon(List(point(5, 6), point(2, 3), point(1, 3), point(1, 5), point(3, 5), point(5, 7),
+//        point(7, 5), point(5, 3), point(5, 1), point(3, 1), point(3, 2), point(6, 5)))
+//
+//      val l = new Line(point(6, 5), point(7, 5))
+//      assert(l.midpoint.inside1(p))
+//    }),
+  new Test("Backtrack polygon test2", () => {
+    val p = new Polygon(List(point(5, 6), point(2, 3), point(1, 3), point(1, 5), point(3, 5), point(5, 7),
+      point(7, 5), point(5, 3), point(5, 1), point(3, 1), point(3, 2), point(6, 5)))
 
-      val l = new Line(point(6, 5), point(7, 5))
-      //drawTest("backtrackpolygontest", List(p), List(l))
-      assert(l.midpoint.inside1(p))
-    })
+    val l = new Line(point(2, 3), point(5, 7))
+    assert(l.midpoint.inside1(p))
+  })
   )
   val intersectionTests = List(
     new Test("intersection test", () => {

@@ -99,20 +99,6 @@ object astarTests {
           PathState.drawSolution("grazedtriangle",field,path)
       }
     }),
-    new Test("Grazed Triangle", () => {
-      val field = grid(10,10,polygon(start),polygon(point(3,3),point(7,3),point(7,7)),polygon(end))
-      val start_state = pathstate(field,start,end)
-      val path = astar(start_state,PathState.cartesianH)
-      println("  grid is a 10x10 arena with a triangle grazing the optimal path")
-      println("  start: " + start)
-      println("  goal: " + end)
-      path match {
-        case Nil => println("  no path found")
-        case _ =>
-          println("  found path: " + path)
-          PathState.drawSolution("grazedtriangle",field,path)
-      }
-    }),
     new Test("Backtrack", () => {
       val field = grid(10,10,
         polygon(point(2,2)),
