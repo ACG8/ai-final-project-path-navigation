@@ -13,6 +13,9 @@ object Line {
 }
 
 class Line(_start: Point, _end: Point) {
+  def this(s: (Rational, Rational),e: (Rational, Rational)) {
+    this(new Point(s._1, s._2), new Point(e._1, e._2))
+  }
   def start: Point = _start
   def end: Point = _end
 
@@ -20,7 +23,21 @@ class Line(_start: Point, _end: Point) {
     Set(start, end)
   }
 
+  def midpoint: Point = {
+    new Point((this.start.x + this.end.x)/new Rational(2), (this.start.y + this.end.y)/new Rational(2))
+  }
   def intersects(point:Point): Boolean ={
+    intersects(point, includeEnds = false)
+  }
+
+  def getOps(includeEnds: Boolean): ((Rational, Rational) => Boolean, (Rational, Rational) => Boolean) ={
+    val leq: (Rational, Rational) => Boolean = { (a, b) => a <= b }
+    val lt: (Rational, Rational) => Boolean = { (a, b) => a < b }
+    val geq: (Rational, Rational) => Boolean = { (a, b) => a >= b }
+    val gt: (Rational, Rational) => Boolean = { (a, b) => a > b }
+    if (includeEnds) (leq, geq) else (lt, gt)
+  }
+  def intersects(point:Point, includeEnds: Boolean): Boolean ={
     val (x0,x1,y0,y1,xp,yp) = (start.x,end.x,start.y,end.y,point.x,point.y)
     val maxX = Rational.max(x0,x1)
     val minX = Rational.min(x0,x1)
@@ -28,7 +45,7 @@ class Line(_start: Point, _end: Point) {
     val minY = Rational.min(y0,y1)
     (x0-x1)*(y0-yp)==(y0-y1)*(x0-xp) &&
       !(xp>maxX || xp < minX || yp > maxY || yp < minY) &&
-      ( point != start) && (point != end)
+      (includeEnds || ((point != start) && (point != end)))
   }
 
   def isParallel(line: Line): Boolean = {
@@ -74,10 +91,10 @@ class Line(_start: Point, _end: Point) {
     (denominator, xIntersectionNumerator, yIntersectionNumerator)
   }
 
-//  def intersectsAtIntegerXY(line: Line): Boolean = {
-//    val (denominator, xIntersectionNumerator, yIntersectionNumerator) = getIntersectionDenominatorAndXYNumerator(line)
-//    (xIntersectionNumerator % denominator == 0) && (yIntersectionNumerator % denominator == 0)
-//  }
+  //  def intersectsAtIntegerXY(line: Line): Boolean = {
+  //    val (denominator, xIntersectionNumerator, yIntersectionNumerator) = getIntersectionDenominatorAndXYNumerator(line)
+  //    (xIntersectionNumerator % denominator == 0) && (yIntersectionNumerator % denominator == 0)
+  //  }
 
   def getIntersection(line: Line): Point = {
     val (denominator, xIntersectionNumerator, yIntersectionNumerator) = getIntersectionDenominatorAndXYNumerator(line)
@@ -98,44 +115,45 @@ class Line(_start: Point, _end: Point) {
     }
 
     val intersection = getIntersection(line)
-    val (xIntersection, yIntersection) = (intersection.x, intersection.y)
-    // Decide if the X intersection occurs outside the line
-    val thisGreaterX = Rational.max(this.start.x, this.end.x)
-    val thisLesserX = Rational.min(this.start.x, this.end.x)
-
-    val leq: (Rational, Rational) => Boolean = { (a, b) => a <= b }
-    val lt: (Rational, Rational) => Boolean = { (a, b) => a < b }
-    val geq: (Rational, Rational) => Boolean = { (a, b) => a >= b }
-    val gt: (Rational, Rational) => Boolean = { (a, b) => a > b }
-
-    val gtOp = if (includeEnds) gt else geq
-    val ltOp = if (includeEnds) lt else leq
-    // ends don't count as intersecting
-    val thisXOutOfBounds = ltOp(xIntersection, thisLesserX) || gtOp(xIntersection, thisGreaterX)
-
-    // Determine if the Y intersection occurs outside the line
-    val thisGreaterY = Rational.max(this.start.y, this.end.y)
-    val thisLesserY = Rational.min(this.start.y, this.end.y)
-    val thisYOutOfBounds = ltOp(yIntersection, thisLesserY) || gtOp(yIntersection, thisGreaterY)
-
-    val lineGreaterX = Rational.max(line.start.x, line.end.x)
-    val lineLesserX = Rational.min(line.start.x, line.end.x)
-
-    // ends don't count as intersecting
-
-    val lineXOutOfBounds = ltOp(xIntersection, lineLesserX) || gtOp(xIntersection, lineGreaterX)
-
-    // Determine if the Y intersection occurs outside the line
-    val lineGreaterY = Rational.max(line.start.y, line.end.y)
-    val lineLesserY = Rational.min(line.start.y, line.end.y)
-    val lineYOutOfBounds = ltOp(yIntersection, lineLesserY) || gtOp(yIntersection, lineGreaterY)
-
-    // If one point on the intersection is outside this line then the intersection occurs on the line.
-    // One of the points can be outside the line.
-    val intersectsThis = !(thisXOutOfBounds && thisYOutOfBounds)
-    val intersectsLine = !(lineXOutOfBounds && lineYOutOfBounds)
-    val intersects = intersectsThis && intersectsLine
-    intersects
+    this.intersects(intersection, includeEnds) && line.intersects(intersection, includeEnds)
+    //    val (xIntersection, yIntersection) = (intersection.x, intersection.y)
+    //    // Decide if the X intersection occurs outside the line
+    //    val thisGreaterX = Rational.max(this.start.x, this.end.x)
+    //    val thisLesserX = Rational.min(this.start.x, this.end.x)
+    //
+    //    val leq: (Rational, Rational) => Boolean = { (a, b) => a <= b }
+    //    val lt: (Rational, Rational) => Boolean = { (a, b) => a < b }
+    //    val geq: (Rational, Rational) => Boolean = { (a, b) => a >= b }
+    //    val gt: (Rational, Rational) => Boolean = { (a, b) => a > b }
+    //
+    //    val gtOp = if (includeEnds) gt else geq
+    //    val ltOp = if (includeEnds) lt else leq
+    //    // ends don't count as intersecting
+    //    val thisXOutOfBounds = ltOp(xIntersection, thisLesserX) || gtOp(xIntersection, thisGreaterX)
+    //
+    //    // Determine if the Y intersection occurs outside the line
+    //    val thisGreaterY = Rational.max(this.start.y, this.end.y)
+    //    val thisLesserY = Rational.min(this.start.y, this.end.y)
+    //    val thisYOutOfBounds = ltOp(yIntersection, thisLesserY) || gtOp(yIntersection, thisGreaterY)
+    //
+    //    val lineGreaterX = Rational.max(line.start.x, line.end.x)
+    //    val lineLesserX = Rational.min(line.start.x, line.end.x)
+    //
+    //    // ends don't count as intersecting
+    //
+    //    val lineXOutOfBounds = ltOp(xIntersection, lineLesserX) || gtOp(xIntersection, lineGreaterX)
+    //
+    //    // Determine if the Y intersection occurs outside the line
+    //    val lineGreaterY = Rational.max(line.start.y, line.end.y)
+    //    val lineLesserY = Rational.min(line.start.y, line.end.y)
+    //    val lineYOutOfBounds = ltOp(yIntersection, lineLesserY) || gtOp(yIntersection, lineGreaterY)
+    //
+    //    // If one point on the intersection is outside this line then the intersection occurs on the line.
+    //    // One of the points can be outside the line.
+    //    val intersectsThis = !(thisXOutOfBounds && thisYOutOfBounds)
+    //    val intersectsLine = !(lineXOutOfBounds && lineYOutOfBounds)
+    //    val intersects = intersectsThis && intersectsLine
+    //    intersects
   }
 
   override def toString: String = {

@@ -81,22 +81,11 @@ class Polygon(_sides: Line*) extends Iterable[Line] {
     }
   }
 
-  def intersectsNotIncludingPoint(line: Line, point: Point, includeEnds: Boolean): Boolean = {
-    this.filter(line => line.start != point && line.end != point)
-      .map(pLine => line.intersects(pLine, includeEnds))
-      .reduce(_ || _)
-
-  }
 
   def intersects(line: Line): Boolean = {
-    intersects(line, includeEnds = false)
+    intersects(line)
   }
 
-  // if a line intersects any of a polygons lines
-  def intersects(line: Line, includeEnds: Boolean): Boolean = {
-    this.map(pLine => line.intersects(pLine, includeEnds)).reduce(_ || _)
-
-  }
 
   // if one polygon overlaps another
   def overlaps(polygon: Polygon): Boolean = {

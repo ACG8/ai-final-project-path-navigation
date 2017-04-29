@@ -30,17 +30,16 @@ class Grid(_maxX: Int, _maxY: Int, _polygons:Polygon*) extends Iterable[Polygon]
     var aPolygonContainsTheLine = false
     // Do this ugly loop for efficiency.
     this.foreach(poly => {
+      if (line.midpoint.inside1(poly)) return true
       poly.foreach(side => {
         if (side == line && aPolygonContainsTheLine) {
           return true
         } else if (side == line) {
           aPolygonContainsTheLine = true
         }
-
         if (line.intersects(side.start) || line.intersects(side.end)) {
           return true
         }
-
         if ( line.intersects(side) ) {
           // return true if the line intersects any side of a polygon NOT including ends
           return true

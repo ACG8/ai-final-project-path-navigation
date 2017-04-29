@@ -124,5 +124,4 @@ object PathState {
     println("  [graphical representation saved in output/"++title++".png]")
     javax.imageio.ImageIO.write(canvas, "png", new java.io.File("output/"++title++".png"))
   }
-
 }
