@@ -8,7 +8,7 @@ import algorithms.astar._
   */
 object astarTests {
   def runTests(): Unit = {
-    tests.foreach(test => test.run())
+    tests.foreach(test => timer.time{test.run()})
   }
 
   class Test(name: String, test: () => Unit) {
