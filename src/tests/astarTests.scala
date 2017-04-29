@@ -1,6 +1,6 @@
 package tests
 
-import model.{Line, Point, Polygon, Grid, PathState}
+import model.{Line, Point, Polygon, Grid, PathState, Rational}
 import algorithms.astar._
 
 /**
@@ -158,7 +158,7 @@ object astarTests {
   )
 
   def point(x: Int, y: Int): Point = {
-    new Point(x, y)
+    new Point(new Rational(x), new Rational(y))
   }
 
   def line(start: Point, end: Point): Line = {

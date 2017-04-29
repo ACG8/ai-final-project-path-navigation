@@ -3,7 +3,9 @@ package model
 /**
   * Created by agieg on 4/19/2017.
   */
-class Grid(maxX: Int, maxY: Int, _polygons:Polygon*) extends Iterable[Polygon] {
+class Grid(_maxX: Int, _maxY: Int, _polygons:Polygon*) extends Iterable[Polygon] {
+  val maxX = new Rational(_maxX, 1)
+  val maxY = new Rational(_maxY, 1)
   val polygons = _polygons
   val dimensions = (maxX, maxY)
   // No two polygons should overlap. Intersecting polygons can always be represented as
@@ -16,8 +18,8 @@ class Grid(maxX: Int, maxY: Int, _polygons:Polygon*) extends Iterable[Polygon] {
   // Make sure all polygons fall within the bounds of the grid.
   polygons.foreach(p => {
     p.foreach(line => {
-      if (line.start.x > maxX || line.start.x < 0 || line.start.y > maxY || line.start.y < 0 ||
-              line.end.x > maxX || line.end.x < 0 || line.end.y > maxY || line.end.y < 0) {
+      if (line.start.x > maxX || line.start.x < new Rational(0, 1) || line.start.y > maxY || line.start.y < new Rational(0, 1) ||
+              line.end.x > maxX || line.end.x < new Rational(0, 1) || line.end.y > maxY || line.end.y < new Rational(0, 1)) {
         throw new IllegalArgumentException("A line was out of bounds: "+line.toString)
       }
     })
@@ -28,36 +30,22 @@ class Grid(maxX: Int, maxY: Int, _polygons:Polygon*) extends Iterable[Polygon] {
     var aPolygonContainsTheLine = false
     // Do this ugly loop for efficiency.
     this.foreach(poly => {
-      // If the line moves from one point along a polygon side.
-      var lineTraversesSide = false
-      // If the current polygon (poly) contains the start point on the line.
-      var containsStart = false
-      // If the current polygon (poly) contains the end point on the line.
-      var containsEnd = false
       poly.foreach(side => {
         if (side == line && aPolygonContainsTheLine) {
           return true
         } else if (side == line) {
           aPolygonContainsTheLine = true
         }
-        // check if either point on this side is the line start or the line end.
-        containsStart = containsStart || side.start==line.start || side.end==line.start
-        containsEnd = containsEnd || side.start==line.end || side.end==line.end
 
         if (line.intersects(side.start) || line.intersects(side.end)) {
           return true
         }
 
-        lineTraversesSide = lineTraversesSide || line == side
         if ( line.intersects(side) ) {
           // return true if the line intersects any side of a polygon NOT including ends
           return true
         }
       })
-      val lineMovesAcrossPolygon = containsStart && containsEnd
-      if (lineMovesAcrossPolygon && !lineTraversesSide) {
-        return true
-      }
     })
     false
   }
