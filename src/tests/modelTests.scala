@@ -8,11 +8,11 @@ import model._
 object modelTests {
 
   def runTests(): Unit = {
-    //runTestsHelper(tests)
-    //runTestsHelper(centerSquareTests)
-    //runTestsHelper(insideTests)
+    runTestsHelper(tests)
+    runTestsHelper(centerSquareTests)
+    runTestsHelper(insideTests)
     runTestsHelper(midpointIsInsideTests)
-    //runTestsHelper(intersectionTests)
+    runTestsHelper(intersectionTests)
   }
 
   def runTestsHelper(tests: List[Test]): Unit = {
