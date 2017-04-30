@@ -70,7 +70,6 @@ object modelTests {
     }),
     new Test("diamond polygon inside test", () => {
       val square = poly(new Point(1, 2), new Point(2, 1), new Point(3, 2), new Point(2, 3))
-      val field = new Grid(10, 10, square)
       val point: Point = new Point(2, 2)
       assert(point.inside1(square))
     })
@@ -108,7 +107,7 @@ object modelTests {
     new Test("deja vu successors", () => {
       val field = grids.dejaVu
       val state = new PathState(field, new Point(100, 425), point(920,84))
-      assert(state.successors.exists{case (ps, cost) => ps.position == point(410,366)})
+      assert(state.successors.exists{case (ps, _) => ps.position == point(410,366)})
     })
   )
 
@@ -154,7 +153,7 @@ object modelTests {
         new Polygon(first, second, third)
         assert(assertion = false, "The third line and the first line do not connect.")
       } catch {
-        case e: IllegalArgumentException => // exception is supposed to be thrown so don't do anything
+        case _: IllegalArgumentException => // exception is supposed to be thrown so don't do anything
       }
     }),
     new Test("validTriangle", () => {

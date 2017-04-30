@@ -20,9 +20,9 @@ class Rational(_num: Int, _denom: Int) extends Ordered[Rational]{
     if(y == 0) x else gcd(y, x % y)
   }
 
-  val g = gcd(_num,_denom)
-  val num = _num/g
-  val denom =  _denom/g
+  val g: Int = gcd(_num,_denom)
+  val num: Int = _num/g
+  val denom: Int =  _denom/g
 
   def +(r2: Rational): Rational = new Rational(this.num*r2.denom + r2.num*this.denom, this.denom*r2.denom)
   def -(r2: Rational): Rational = new Rational(this.num*r2.denom - r2.num*this.denom, this.denom*r2.denom)

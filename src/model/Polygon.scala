@@ -26,15 +26,6 @@ class Polygon(_sides: Line*) extends Iterable[Line] {
     this( Polygon.convert_to_lines(points zip Polygon.rotate(points)):_* )
   }
 
-  def ccw(A:Point,B:Point,C:Point): Boolean = (C.y-A.y)*(B.x-A.x) > (B.y-A.y)*(C.x-A.x)
-//  if (!sides
-//    .iterator.sliding(2).toList
-//    .map( pair => ccw(pair.head.start,pair.head.end,pair.last.end))
-//    .forall( b => b==ccw(sides.last.start,sides.last.end,sides.head.end))
-//  ) {
-//    throw new IllegalArgumentException("Polygons must be convex. To make concave polygons, combine two or more convex polygons.")
-//  }
-
   if (sides.length != 1 && sides.length < 3) {
     throw new IllegalArgumentException("Polygons must have at least 3 sides or exactly one side")
   }
@@ -81,11 +72,9 @@ class Polygon(_sides: Line*) extends Iterable[Line] {
     }
   }
 
-
   def intersects(line: Line): Boolean = {
     intersects(line)
   }
-
 
   // if one polygon overlaps another
   def overlaps(polygon: Polygon): Boolean = {

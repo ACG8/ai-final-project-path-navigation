@@ -14,7 +14,7 @@ import scala.collection.mutable
   * The head of the list is the most recent state, and the last element is the first state in the path
   */
 abstract class GBFStateOrder[T <: State[T]] extends Ordering[(List[T],Double)] {
-	def compare(x:(List[T],Double),y:(List[T],Double)) = y._2 compare x._2 // ascending order by second element
+	def compare(x:(List[T],Double),y:(List[T],Double)): Int = y._2 compare x._2 // ascending order by second element
 }
 
 object greedybestfirst {

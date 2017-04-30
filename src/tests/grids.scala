@@ -7,7 +7,7 @@ import model._
   */
 object grids {
   // Do not change this variable, make a new one if you need it. Tests rely on this being the way it is.
-  val dejaVu = grid(1000,572,
+  val dejaVu: Grid = grid(1000,572,
     polygon(point(62,487)),
     polygon(point(100,425),point(100,550),point(500,550),point(500,425)),
     polygon(point(60,196),point(203,66),point(295,189),point(220,351),point(83,322)),

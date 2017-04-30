@@ -7,8 +7,8 @@ package model
 class Grid(_maxX: Int, _maxY: Int, _polygons:Polygon*) extends Iterable[Polygon] {
   val maxX = new Rational(_maxX, 1)
   val maxY = new Rational(_maxY, 1)
-  val polygons = _polygons
-  val dimensions = (maxX, maxY)
+  val polygons: Seq[Polygon] = _polygons
+  val dimensions: (Rational,Rational) = (maxX, maxY)
   // No two polygons should overlap. Intersecting polygons can always be represented as
   polygons.foreach(a => polygons.foreach(b => {
     if (a.overlaps(b)) {
