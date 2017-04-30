@@ -48,7 +48,7 @@ class Point(_x: Rational, _y: Rational ){
     var intersectsVertex = true
     var intersections: Set[Point] = null
     while (intersectsVertex) {
-      ray = new Line(this, new Point(new Rational(Random.nextInt(10000)+maxX.round), new Rational(Random.nextInt(10000)+maxY.round)))
+      ray = new Line(this, new Point(new Rational(Random.nextInt(10000)+maxX.round+1), new Rational(Random.nextInt(10000)+maxY.round+1)))
       intersections = p.filter(side => ray.intersects(side, includeEnds = true))
         .map(side => ray.getIntersection(side)).toSet
       intersectsVertex = p.flatMap(side => List(side.start, side.end)).exists(v => intersections.contains(v))
