@@ -219,6 +219,6 @@ object modelTests {
     val maxY = points.map(p => p.y).max
     val grid = new Grid(maxX.round+3, maxY.round+3, polygons:_*)
 
-    PathState.drawSolution(title, grid, lines.map(line => new PathState(grid, line.start, goal)))
+    PathState.drawSolution(title,"test", grid, lines.map(line => new PathState(grid, line.start, goal)))
   }
 }

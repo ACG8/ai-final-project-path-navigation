@@ -60,7 +60,7 @@ object PathState {
     *
     * This is not actually necessary, but helps us see what is happening
     */
-  def drawSolution(title: String, grid:Grid, path:List[PathState], gridSpacing:Int = 1): Unit = {
+  def drawSolution(title: String, caption:String, grid:Grid, path:List[PathState], gridSpacing:Int = 1): Unit = {
     val start = path.head.position
     val end = path.last.position
     // TODO: Should adjust scale depending on size of inputs
@@ -124,9 +124,13 @@ object PathState {
     g.fill(new Ellipse2D.Double(((end.x-goalsize/two)*scale).round, ((end.y-goalsize/two)*scale).round, (goalsize*scale).round, (goalsize*scale).round))
 
     // draw caption
+    val fontsize = (scale/two).round
+    val titleX = (scale*new Rational(1,10)).toFloat
+    val titleY = size._2.toFloat-(scale*new Rational(1,10)).toFloat
+
     g.setColor(Color.BLACK) // a darker green
-    g.setFont(new Font("Batang", Font.PLAIN, (scale/two).round))
-    g.drawString(title, (scale*new Rational(1,10)).toFloat, size._2.toFloat-(scale*new Rational(1,10)).toFloat)
+    g.setFont(new Font("Batang", Font.PLAIN, fontsize))
+    g.drawString(title+", "+caption, titleX, titleY)
 
     // done with drawing
     g.dispose()

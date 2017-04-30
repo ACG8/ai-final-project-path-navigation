@@ -41,7 +41,7 @@ object Test {
         case (path,iterations,length) =>
           println("  found path: " + path + " (length=" + length + ")")
           println("  " + iterations + " iterations taken")
-          PathState.drawSolution(name,grid,path)
+          PathState.drawSolution(name,"length="+length+",iterations="+iterations,grid,path)
       }
     })
   }
