@@ -26,20 +26,21 @@ object Test {
   def test(grid: Grid, //first and last points must be start and end points
            name: String,
            description: String,
-           algorithm: ((PathState, PathState => Double) => List[PathState]),
+           algorithm: ((PathState, PathState => Double) => (List[PathState],Int,Double)),
            heuristic: PathState => Double): Test = {
     new Test(name, () => {
       val start = grid.polygons.head.vertices.head
       val end = grid.polygons.last.vertices.head
       val start_state = pathstate(grid,start,end)
-      val path = astar(start_state,PathState.cartesianH)
+      val solution = algorithm(start_state,PathState.cartesianH)
       println("  " + description)
       println("  start: " + start)
       println("  goal: " + end)
-      path match {
-        case Nil => println("  no path found")
-        case _ =>
-          println("  found path: " + path)
+      solution match {
+        case (Nil,_,_) => println("  no path found")
+        case (path,iterations,length) =>
+          println("  found path: " + path + " (length=" + length + ")")
+          println("  " + iterations + " iterations taken")
           PathState.drawSolution(name,grid,path)
       }
     })

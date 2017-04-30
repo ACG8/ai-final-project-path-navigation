@@ -12,7 +12,7 @@ class Grid(_maxX: Int, _maxY: Int, _polygons:Polygon*) extends Iterable[Polygon]
   // No two polygons should overlap. Intersecting polygons can always be represented as
   polygons.foreach(a => polygons.foreach(b => {
     if (a.overlaps(b)) {
-      throw new IllegalArgumentException("No two polygons should overlap in the grid.")
+      throw new IllegalArgumentException("No two polygons should overlap in the grid. Overlap between"+a+" and "+b)
     }
   }))
 

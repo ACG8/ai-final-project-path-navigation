@@ -19,28 +19,41 @@ abstract class ASStateOrder[T <: State[T]] extends Ordering[(List[T],Double,Doub
 
 object astar {
 	// start is the starting state and h is the heuristic function
-  def astar[T <: State[T]](start: T, h: T => Double): List[T] = {
+  /** output is:
+    * 1. a list of states (the path)
+    * 2. the number of iterations it took to find a solution
+    * 3. the path length of the solution
+    */
+  def astar[T <: State[T]](start: T, h: T => Double): (List[T],Int,Double) = {
   	// store the state-cost tuples in a priority queue ordered by cost ascending
     val frontier_ordering = new ASStateOrder[T]() {}
     var frontier: mutable.PriorityQueue[(List[T], Double, Double)] = mutable.PriorityQueue.empty(frontier_ordering)
     frontier += ((List(start),h(start),0.0)) //start at the start node
+    var totalcost: Double = 0.0
+    var iterations: Int = 0
     var path: List[T] = List.empty //our solution
     // alternate between choosing a node to expand, checking to see if it is a goal state, and adding its successors to the frontier
     while (frontier.nonEmpty && path.isEmpty) {
-    	val current_path: List[T] = frontier.head._1
-    	val g: Double = frontier.head._3
-    	val current_state = current_path.head
-    	frontier = frontier.tail
-    	//g is the cost of getting to the current state
-    	if (current_state.isGoalState)
-   			path = current_path.reverse
-    	else
+
+      val current_path: List[T] = frontier.head._1
+      val g: Double = frontier.head._3
+      val current_state = current_path.head
+      frontier = frontier.tail
+      //g is the cost of getting to the current state
+      if (current_state.isGoalState) {
+        totalcost = g
+        path = current_path.reverse
+      }
+      else {
+        iterations = iterations + 1
         frontier = frontier ++ current_state
           .successors
-          .map{
-            case (next,relative_cost) => (next::current_path, relative_cost + g + h(next), relative_cost + g)
+          .map {
+            case (next, relative_cost) => (next :: current_path, relative_cost + g + h(next), relative_cost + g)
           }
       }
-    path
+    }
+
+    (path,iterations,totalcost)
   }
 }

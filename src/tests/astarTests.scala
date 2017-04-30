@@ -30,6 +30,14 @@ object astarTests {
         "Backtrack (AStar,cartesian)","test of algorithm's ability to navigate around obstacles",
         astar.astar,PathState.cartesianH),
 
+      Test.test(grids.easy1,
+        "Easy1 (AStar,cartesian)","an easy course with only convex polygons",
+        astar.astar,PathState.cartesianH),
+
+      Test.test(grids.medium1,
+        "Medium1 (AStar,cartesian)","a medium-difficulty course with convex and concave polygons",
+        astar.astar,PathState.cartesianH),
+
       Test.test(grids.dejaVu,
         "Deja Vu (AStar,cartesian)","the example obstacle course provided in the handout",
         astar.astar,PathState.cartesianH)
