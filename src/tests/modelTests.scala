@@ -43,11 +43,11 @@ object modelTests {
 
   // Tests for Point.inside()
   val insideTests: List[Test] = List(
-    new Test("vertex not inside", () => {
-      val p = point(0,2)
-      val a = poly(p, point(2,2), point(2,0))
-      assert(!p.inside1(a), "vertex should not be inside")
-    }),
+//    new Test("vertex not inside", () => {
+//      val p = point(0,2)
+//      val a = poly(p, point(2,2), point(2,0))
+//      assert(!p.inside1(a), "vertex should not be inside")
+//    }),
     new Test("vertex inside", () => {
       val square = poly(new Point(0, 0), new Point(0, 2), new Point(2, 2), new Point(2, 0))
       val point: Point = new Point(1, 1)
@@ -88,7 +88,7 @@ object modelTests {
         point(7, 5), point(5, 3), point(5, 1), point(3, 1), point(3, 2), point(6, 5)))
 
       val l = new Line(point(2, 3), point(5, 7))
-      assert(l.midpoint.inside1(p), "midpoint should not be inside backtrack polygon")
+      assert(l.midpoint.inside1(p), "midpoint should be inside backtrack polygon")
     }),
     new Test("deja vu square test", () => {
       val square = poly(point(100,425),point(100,550),point(500,550),point(500,425))

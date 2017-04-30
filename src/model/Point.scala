@@ -1,5 +1,7 @@
 package model
 
+import scala.util.Random
+
 /**
   * Created by agieg on 4/19/2017.
   */
@@ -26,28 +28,38 @@ class Point(_x: Rational, _y: Rational ){
 
 
   def inside1(p :Polygon): Boolean = {
-    var maxX: Rational = new Rational(0)
-    var maxY: Rational = new Rational(0)
+    val points = p.sides.flatMap(side => List(side.start, side.end))
+    val maxX: Rational = points.map(v => v.x).max
+    val maxY: Rational = points.map(v => v.y).max
+    val minX: Rational = points.map(v => v.x).min
+    val minY: Rational = points.map(v => v.y).min
     p.sides.foreach(side => {
       // points on a side are not intersecting
       if (side.intersects(this)) return false
       // points on vertices are not intersecting
       if (side.start ==  this || side.end == this) return false
-      maxX = if (side.start.x > maxX) side.start.x else maxX
-      maxX = if (side.end.x > maxX) side.end.x else maxX
-      maxY = if (side.start.y > maxY) side.start.y else maxY
-      maxY = if (side.end.y > maxY) side.end.y else maxY
     })
-    val ray: Line = new Line(this, new Point(maxX+new Rational(1), maxY+new Rational(1)))
 
+    if(this.x >= maxX || this.x <= minX || this.y >= maxY || this.y <= minY ) {
+      return false
+    }
+
+    var ray: Line = null
+    var intersectsVertex = true
+    var intersections: Set[Point] = null
+    while (intersectsVertex) {
+      ray = new Line(this, new Point(new Rational(Random.nextInt(10000)+maxX.round), new Rational(Random.nextInt(10000)+maxY.round)))
+      intersections = p.filter(side => ray.intersects(side, includeEnds = true))
+        .map(side => ray.getIntersection(side)).toSet
+      intersectsVertex = p.flatMap(side => List(side.start, side.end)).exists(v => intersections.contains(v))
+    }
     // total number of intersections including, vertex intersection will only count once since we're using
     // a set
-    val intersections: Set[Point] = p.filter(side => ray.intersects(side, includeEnds = true))
-      .map(side => ray.getIntersection(side)).toSet
-    // if the ray is starting on a vertex of the polygon
-    val startOnVertex: Boolean = p.exists(side => this==side.start || this==side.end)
-    // Don't count the vertex we start on as an intersection.
-    val total = intersections.size - (if (startOnVertex) 1 else 0)
-    total % 2 == 1
+
+//    // if the ray is starting on a vertex of the polygon
+//    val startOnVertex: Boolean = p.exists(side => ray.start==side.start || ray.start==side.end)
+//    // Don't count the vertex we start on as an intersection.
+//    val total = intersections.size - (if (startOnVertex) 1 else 0)
+      intersections.size % 2 == 1
   }
 }

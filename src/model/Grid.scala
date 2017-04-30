@@ -30,7 +30,7 @@ class Grid(_maxX: Int, _maxY: Int, _polygons:Polygon*) extends Iterable[Polygon]
   def overlaps(line: Line): Boolean = {
     // Do this ugly loop for efficiency.
     this.foreach(poly => {
-      //if (line.midpoint.inside1(poly)) return true
+      if (line.midpoint.inside1(poly)) return true
       poly.foreach(side => {
         if (line.intersects(side.start) || line.intersects(side.end)) {
           return true
