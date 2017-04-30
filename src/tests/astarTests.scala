@@ -1,7 +1,8 @@
 package tests
 
 import model.{Line, Point, Polygon, Grid, PathState, Rational}
-import algorithms.{astar,greedybestfirst}
+import algorithms.{astar,greedybestfirst, hillClimb}
+
 
 /**
   * Created by Ananda on 4/24/2017.
@@ -15,7 +16,9 @@ object astarTests {
   private type Heuristic = PathState => Double
   private type Algorithm = (PathState, Heuristic) => (List[PathState],Int,Double)
   var tests:List[Test.Test] = Nil
-  for (a <- List[(Algorithm,String)]((astar.astar,"ASt"),(greedybestfirst.greedybestfirst,"GBF"))) {
+  for (a <- List[(Algorithm,String)]((astar.astar,"ASt"),(greedybestfirst.greedybestfirst,"GBF"),
+                                     (hillClimb.kHillClimb[PathState](1), "Classic hillclimbing"),
+                                     (hillClimb.kHillClimb[PathState](2), "2-lookahead hillclimbing"))) {
     for (h <- List[(Heuristic,String)]((PathState.cartesianH,"cartesian"))) {
       tests ++= List(
         Test.test(grids.trivialCase,
