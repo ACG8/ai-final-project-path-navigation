@@ -10,9 +10,17 @@ import java.awt.geom._
   * We assume that there is only 1 goal state, as per the instructions
   */
 
-class PathState(grid: Grid, _position: Point, _goal: Point) extends State[PathState] {
+class PathState(_grid: Grid, _position: Point, _goal: Point) extends State[PathState] {
   val position:Point = _position
   val goal:Point = _goal
+  val grid:Grid = _grid
+
+  override def equals(obj: scala.Any): Boolean = {
+    obj match {
+      case obj: PathState => this.grid == obj.grid && this.position == obj.position && this.goal == obj.goal
+      case _ => false
+    }
+  }
 
   def isGoalState: Boolean = goal == position
 

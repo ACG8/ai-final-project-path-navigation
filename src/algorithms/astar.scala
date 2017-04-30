@@ -13,7 +13,7 @@ import scala.collection.mutable
   * The first double is the heuristic estimate of the cost (for sorting) and the third is the cost g to reach this state
   * The head of the list is the most recent state, and the last element is the first state in the path
   */
-abstract class ASStateOrder[T <: State[T]] extends Ordering[(List[T],Double,Double)] {
+abstract class StateOrder[T <: State[T]] extends Ordering[(List[T],Double,Double)] {
 	def compare(x:(List[T],Double,Double),y:(List[T],Double,Double)): Int = y._2 compare x._2 // ascending order by second element
 }
 
@@ -26,7 +26,7 @@ object astar {
     */
   def astar[T <: State[T]](start: T, h: T => Double): (List[T],Int,Double) = {
   	// store the state-cost tuples in a priority queue ordered by cost ascending
-    val frontier_ordering = new ASStateOrder[T]() {}
+    val frontier_ordering = new StateOrder[T]() {}
     var frontier: mutable.PriorityQueue[(List[T], Double, Double)] = mutable.PriorityQueue.empty(frontier_ordering)
     frontier += ((List(start),h(start),0.0)) //start at the start node
     var totalcost: Double = 0.0
@@ -45,7 +45,7 @@ object astar {
         path = current_path.reverse
       }
       else {
-        iterations = iterations + 1
+        iterations += 1
         frontier = frontier ++ current_state
           .successors
           .map {
