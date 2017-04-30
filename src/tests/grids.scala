@@ -1,12 +1,28 @@
 package tests
 
 import model._
+import tests.astarTests._
 
 /**
   * Created by agieg on 4/29/2017.
   */
 object grids {
+
+  // commonly used points
+  private val start1_1 = point(1,1)
+  private val end9_9 = point(9,9)
   // Do not change this variable, make a new one if you need it. Tests rely on this being the way it is.
+
+
+  val trivialCase: Grid = grid(10,10,polygon(start1_1),polygon(end9_9))
+  val oneTriangle: Grid = grid(10,10,polygon(start1_1),polygon(point(3,6),point(7,5),point(5,2)),polygon(end9_9))
+  val centerSquare: Grid = grid(10,10,polygon(start1_1),polygon(point(3,3),point(7,3),point(7,7),point(3,7)),polygon(end9_9))
+  val grazedTriangle: Grid = grid(10,10,polygon(start1_1),polygon(point(3,3),point(7,3),point(7,7)),polygon(end9_9))
+  val backtrack: Grid = grid(10,10,
+    polygon(point(2,2)),
+    polygon(point(5,6),point(2,3),point(1,3),point(1,5),point(3,5),point(5,7),
+      point(7,5),point(5,3),point(5,1),point(3,1),point(3,2),point(6,5)),
+    polygon(end9_9))
   val dejaVu: Grid = grid(1000,572,
     polygon(point(62,487)),
     polygon(point(100,425),point(100,550),point(500,550),point(500,425)),
@@ -33,9 +49,5 @@ object grids {
 
   def grid(maxX: Int, maxY: Int, polygons: Polygon*): Grid = {
     new Grid(maxX, maxY, polygons:_*)
-  }
-
-  def pathstate(grid: Grid, position: Point, goal: Point): PathState = {
-    new PathState(grid, position, goal)
   }
 }
