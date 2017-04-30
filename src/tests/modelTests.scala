@@ -100,6 +100,13 @@ object modelTests {
       val a = new Line(new Point(100, 425), new Point(410, 366))
 
       assert(!a.midpoint.inside1(hexagon), "midpoint should not be in hexagon")
+    }),
+    new Test("deja vu pentagon test", () => {
+      val hexagon = poly(point(60,196),point(203,66),point(295,189),point(220,351),point(83,322))
+
+      val a = new Line(point(60,196), point(295,189))
+
+      assert(!a.midpoint.inside1(hexagon), "midpoint should not be in pentagon")
     })
   )
 

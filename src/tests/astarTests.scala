@@ -12,36 +12,42 @@ object astarTests {
     tests.foreach(test => timer.time{test.run()})
   }
 
-  val tests: List[Test.Test] =
-    List(
-      Test.test(grids.trivialCase,
-        "Trivial Case (AStar,cartesian)","an empty grid",
-        astar.astar,PathState.cartesianH),
-      Test.test(grids.oneTriangle,
-        "One Triangle (AStar,cartesian)","single triangular obstacle",
-        astar.astar,PathState.cartesianH),
-      Test.test(grids.centerSquare,
-        "Center Square (AStar,cartesian)","square to test prohibition on intrashape traversal",
-        astar.astar,PathState.cartesianH),
-      Test.test(grids.grazedTriangle,
-        "Grazed Triangle (AStar,cartesian)","triangle to test traversal of shape boundaries",
-        astar.astar,PathState.cartesianH),
-      Test.test(grids.backtrack,
-        "Backtrack (AStar,cartesian)","test of algorithm's ability to navigate around obstacles",
-        astar.astar,PathState.cartesianH),
+  private type Heuristic = PathState => Double
+  private type Algorithm = (PathState, Heuristic) => (List[PathState],Int,Double)
+  var tests:List[Test.Test] = Nil
+  for (a <- List[(Algorithm,String)]((astar.astar,"ASt"),(greedybestfirst.greedybestfirst,"GBF"))) {
+    for (h <- List[(Heuristic,String)]((PathState.cartesianH,"cartesian"))) {
+      tests ++= List(
+        Test.test(grids.trivialCase,
+          "Trivial Case ("+a._2+","+h._2+")","an empty grid",
+          a._1,h._1),
+        Test.test(grids.oneTriangle,
+          "One Triangle ("+a._2+","+h._2+")","single triangular obstacle",
+          a._1,h._1),
+        Test.test(grids.centerSquare,
+          "Center Square ("+a._2+","+h._2+")","square to test prohibition on intrashape traversal",
+          a._1,h._1),
+        Test.test(grids.grazedTriangle,
+          "Grazed Triangle ("+a._2+","+h._2+")","triangle to test traversal of shape boundaries",
+          a._1,h._1),
+        Test.test(grids.backtrack,
+          "Backtrack ("+a._2+","+h._2+")","test of algorithm's ability to navigate around obstacles",
+          a._1,h._1),
 
-      Test.test(grids.easy1,
-        "Easy1 (AStar,cartesian)","an easy course with only convex polygons",
-        astar.astar,PathState.cartesianH),
+        Test.test(grids.easy1,
+          "Easy1 ("+a._2+","+h._2+")","an easy course with only convex polygons",
+          a._1,h._1),
 
-      Test.test(grids.medium1,
-        "Medium1 (AStar,cartesian)","a medium-difficulty course with convex and concave polygons",
-        astar.astar,PathState.cartesianH),
+        Test.test(grids.medium1,
+          "Medium1 ("+a._2+","+h._2+")","a medium-difficulty course with convex and concave polygons",
+          a._1,h._1),
 
-      Test.test(grids.dejaVu,
-        "Deja Vu (AStar,cartesian)","the example obstacle course provided in the handout",
-        astar.astar,PathState.cartesianH)
-    )
+        Test.test(grids.dejaVu,
+          "Deja Vu ("+a._2+","+h._2+")","the example obstacle course provided in the handout",
+          a._1,h._1)
+      )
+    }
+  }
 
   def point(x: Int, y: Int): Point = {
     new Point(new Rational(x), new Rational(y))

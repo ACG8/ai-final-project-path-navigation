@@ -31,7 +31,7 @@ object greedybestfirst {
       val current_state = current_path.head
       frontier = frontier.tail
       // detect loops and break out if you see them
-      if (current_path contains current_state) frontier.clear
+      if (current_path.tail contains current_state) frontier.clear
       else if (current_state.isGoalState) {
         totalcost = g
         path = current_path.reverse
