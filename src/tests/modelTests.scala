@@ -1,5 +1,9 @@
 package tests
 
+import java.awt.geom.{Ellipse2D, Line2D}
+import java.awt.{BasicStroke, Color}
+import java.awt.image.BufferedImage
+
 import model._
 
 /**
@@ -43,11 +47,11 @@ object modelTests {
 
   // Tests for Point.inside()
   val insideTests: List[Test] = List(
-//    new Test("vertex not inside", () => {
-//      val p = point(0,2)
-//      val a = poly(p, point(2,2), point(2,0))
-//      assert(!p.inside1(a), "vertex should not be inside")
-//    }),
+    new Test("vertex not inside", () => {
+      val p = point(0,2)
+      val a = poly(p, point(2,2), point(2,0))
+      assert(!p.inside1(a), "vertex should not be inside")
+    }),
     new Test("vertex inside", () => {
       val square = poly(new Point(0, 0), new Point(0, 2), new Point(2, 2), new Point(2, 0))
       val point: Point = new Point(1, 1)
@@ -71,7 +75,7 @@ object modelTests {
     new Test("diamond polygon inside test", () => {
       val square = poly(new Point(1, 2), new Point(2, 1), new Point(3, 2), new Point(2, 3))
       val point: Point = new Point(2, 2)
-      assert(point.inside1(square))
+      assert(point.inside1(square), "point should be inside square")
     })
   )
   val midpointIsInsideTests = List(
@@ -102,11 +106,23 @@ object modelTests {
       assert(!a.midpoint.inside1(hexagon), "midpoint should not be in hexagon")
     }),
     new Test("deja vu pentagon test", () => {
-      val hexagon = poly(point(60,196),point(203,66),point(295,189),point(220,351),point(83,322))
+      val pentagon = poly(point(60,196),point(203,66),point(295,189),point(220,351),point(83,322))
 
       val a = new Line(point(60,196), point(295,189))
 
-      assert(!a.midpoint.inside1(hexagon), "midpoint should not be in pentagon")
+      assert(a.midpoint.inside1(pentagon), "midpoint should be in pentagon")
+    }),
+    new Test("deja vu pentagon test", () => {
+      //val pentagon = poly(point(60,196),point(203,66),point(295,189),point(220,351),point(83,322))
+      val x: List[Polygon] = List()
+      //val grid = new Grid(400, 400, x:_*)
+      val a = new Line(point(60,196), point(295,189))
+      val side = line(point(220,351),point(295,189))
+      val ray = new Line(a.midpoint, new Point(3907, 5825))
+      //draw("albert-test", grid, List(side, ray), List(new Point(100, 100), side.getIntersection(ray)))
+
+      assert(side.intersects(ray, includeEnds = true),
+        "line should intersect pentagon")
     })
   )
 
@@ -219,13 +235,71 @@ object modelTests {
     new Polygon(points.toList)
   }
 
-  def drawTest(title: String, polygons: List[Polygon], lines: List[Line]): Unit = {
-    val goal = new Point(new Rational(3), new Rational(3))
-    val points: List[Point] = polygons.flatMap(poly => poly.flatMap(side => List(side.start, side.end)))
-    val maxX = points.map(p => p.x).max
-    val maxY = points.map(p => p.y).max
-    val grid = new Grid(maxX.round+3, maxY.round+3, polygons:_*)
+  def draw(title: String,grid: Grid, lines: List[Line] = List(), points: List[Point] = List()): Unit = {
+    val gridSpacing = Math.pow(10 ,Math.log10(List(grid.maxX.round, grid.maxY.round).max).floor-1)
+    // TODO: Should adjust scale depending on size of inputs
+    val scale = new Rational(1000)/grid.dimensions._1
+    val goalsize = new Rational(3,10)*List(grid.maxX, grid.maxY).max/new Rational(20)
 
-    PathState.drawSolution(title,"test", grid, lines.map(line => new PathState(grid, line.start, goal)))
+    // Size of image
+    val size = (grid.dimensions._1*scale, grid.dimensions._2*scale)
+
+    // create an image
+    val canvas: BufferedImage = new BufferedImage(size._1.round.toInt, size._2.round.toInt, BufferedImage.TYPE_INT_RGB)
+
+    // get Graphics2D for the image
+    val g = canvas.createGraphics()
+
+    // clear background
+    g.setColor(Color.WHITE)
+    g.fillRect(0, 0, canvas.getWidth, canvas.getHeight)
+
+    g.setColor(Color.LIGHT_GRAY)
+    for (x <- 0 until grid.maxX.round.toInt) {
+      if (x%gridSpacing == 0) {
+        g.setStroke(new BasicStroke()) // reset to default
+        g.draw(new Line2D.Double(x * scale.round.toInt, 0, x * scale.round.toInt, grid.maxY.round.toInt * scale.round.toInt))
+      }
+    }
+    for (y <- 0 until grid.maxY.round.toInt) {
+      if (y%gridSpacing == 0) {
+        g.setStroke(new BasicStroke()) // reset to default
+        g.draw(new Line2D.Double(0, y * scale.round, grid.maxX.round * scale.round, y * scale.round))
+      }
+    }
+
+    // enable anti-aliased rendering (prettier lines and circles)
+    g.setRenderingHint(java.awt.RenderingHints.KEY_ANTIALIASING,
+      java.awt.RenderingHints.VALUE_ANTIALIAS_ON)
+
+    // draw the polygons
+    g.setColor(Color.BLUE)
+    for (poly <- grid)
+      for (line <- poly) {
+        g.setStroke(new BasicStroke())  // reset to default
+        g.draw(new Line2D.Double((line.start.x*scale).round, (line.start.y*scale).round, (line.end.x*scale).round, (line.end.y*scale).round))
+      }
+
+    // draw the path in green
+    g.setColor(Color.GREEN)
+    for (line <- lines) {
+      g.setStroke(new BasicStroke())  // reset to default
+      val p0 = line.start
+      val p1 = line.end
+
+      g.draw(new Line2D.Double((p0.x*scale).round, (p0.y*scale).round, (p1.x*scale).round, (p1.y*scale).round))
+    }
+    val two = new Rational(2)
+    g.setColor(Color.RED) // red = path end
+    points.foreach(end => {
+      println("drawing point")
+      g.fill(new Ellipse2D.Double(((end.x-goalsize/two)*scale).round,
+        ((end.y-goalsize/two)*scale).round,(goalsize*scale).round,(goalsize*scale).round))
+    })
+    // done with drawing
+    g.dispose()
+    // write image to a file
+    javax.imageio.ImageIO.write(canvas, "png", new java.io.File("output/"++title++".png"))
   }
+
 }
