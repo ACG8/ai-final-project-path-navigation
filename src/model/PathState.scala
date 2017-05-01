@@ -62,13 +62,16 @@ object PathState {
     Math.sqrt((dx*dx+dy*dy).toDouble)
   }
 
+
+
   /**
     * *code for drawing solutions is based on example from
     * https://raw.githubusercontent.com/otfried/cs109-scala/master/examples/drawing.scala
     *
     * This is not actually necessary, but helps us see what is happening
     */
-  def drawSolution(title: String, caption:String, grid:Grid, path:List[PathState], gridSpacing:Int = 1): Unit = {
+  def drawSolution(title: String, caption:String, grid:Grid, path:List[PathState]): Unit = {
+    val gridSpacing = Math.pow(10 ,Math.log10(List(grid.maxX.round, grid.maxY.round).max).floor-1)
     val start = path.head.position
     val end = path.last.position
     // TODO: Should adjust scale depending on size of inputs
@@ -79,7 +82,7 @@ object PathState {
     val size = (grid.dimensions._1*scale, grid.dimensions._2*scale)
 
     // create an image
-    val canvas: BufferedImage = new BufferedImage(size._1.round, size._2.round, BufferedImage.TYPE_INT_RGB)
+    val canvas: BufferedImage = new BufferedImage(size._1.round.toInt, size._2.round.toInt, BufferedImage.TYPE_INT_RGB)
 
     // get Graphics2D for the image
     val g = canvas.createGraphics()
@@ -89,16 +92,16 @@ object PathState {
     g.fillRect(0, 0, canvas.getWidth, canvas.getHeight)
 
     g.setColor(Color.LIGHT_GRAY)
-    for (x <- 0 until grid.maxX.round) {
+    for (x <- 0 until grid.maxX.round.toInt) {
       if (x%gridSpacing == 0) {
         g.setStroke(new BasicStroke()) // reset to default
-        g.draw(new Line2D.Double(x * scale.round, 0, x * scale.round, grid.maxY.round * scale.round))
+        g.draw(new Line2D.Double(x * scale.round.toInt, 0, x * scale.round.toInt, grid.maxY.round * scale.round.toInt))
       }
     }
-    for (y <- 0 until grid.maxY.round) {
+    for (y <- 0 until grid.maxY.round.toInt) {
       if (y%gridSpacing == 0) {
         g.setStroke(new BasicStroke()) // reset to default
-        g.draw(new Line2D.Double(0, y * scale.round, grid.maxX.round * scale.round, y * scale.round))
+        g.draw(new Line2D.Double(0, y * scale.round.toInt, grid.maxX.round.toInt * scale.round, y * scale.round.toInt))
       }
     }
 
@@ -137,7 +140,7 @@ object PathState {
     val titleY = size._2.toFloat-(scale*new Rational(1,10)).toFloat
 
     g.setColor(Color.BLACK) // a darker green
-    g.setFont(new Font("Batang", Font.PLAIN, fontsize))
+    g.setFont(new Font("Batang", Font.PLAIN, fontsize.toInt))
     g.drawString(title+", "+caption, titleX, titleY)
 
     // done with drawing

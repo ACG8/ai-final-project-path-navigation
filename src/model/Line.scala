@@ -43,9 +43,14 @@ class Line(_start: Point, _end: Point) {
     val minX = Rational.min(x0,x1)
     val maxY = Rational.max(y0,y1)
     val minY = Rational.min(y0,y1)
-    (x0-x1)*(y0-yp)==(y0-y1)*(x0-xp) &&
-      !(xp>maxX || xp < minX || yp > maxY || yp < minY) &&
-      (includeEnds || ((point != start) && (point != end)))
+    val slopesAreSame = (x0-x1)*(y0-yp)==(y0-y1)*(x0-xp)
+    val xpOver = xp>maxX
+    val xpUnder = xp < minX
+    val ypOver = yp > maxY
+    val ypUnder = yp < minY
+    val inBound = !(xpOver || xpUnder || ypOver || ypUnder)
+    val checkEnds = includeEnds || ((point != start) && (point != end))
+    slopesAreSame && inBound && checkEnds
   }
 
   def isParallel(line: Line): Boolean = {

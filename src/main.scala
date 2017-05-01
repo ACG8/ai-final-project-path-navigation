@@ -10,7 +10,7 @@ object main {
     println("== MODEL TESTS ==")
     modelTests.runTests()
     println("== A STAR TESTS ==")
-    astarTests.runTests()
+    //astarTests.runTests()
   }
 }
 

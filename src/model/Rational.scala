@@ -11,18 +11,18 @@ object Rational {
     if (r1 < r2) r1 else r2
   }
 }
-class Rational(_num: Int, _denom: Int) extends Ordered[Rational]{
-  def this(n: Int) {
+class Rational(_num: Long, _denom: Long) extends Ordered[Rational]{
+  def this(n: Long) {
     this(n, 1)
   }
 
-  def gcd(x: Int, y: Int): Int = {
+  def gcd(x: Long, y: Long): Long = {
     if(y == 0) x else gcd(y, x % y)
   }
 
-  val g: Int = gcd(_num,_denom)
-  val num: Int = _num/g
-  val denom: Int =  _denom/g
+  val g: Long = gcd(_num,_denom)
+  val num: Long = _num/g
+  val denom: Long =  _denom/g
 
   def +(r2: Rational): Rational = new Rational(this.num*r2.denom + r2.num*this.denom, this.denom*r2.denom)
   def -(r2: Rational): Rational = new Rational(this.num*r2.denom - r2.num*this.denom, this.denom*r2.denom)
@@ -37,7 +37,7 @@ class Rational(_num: Int, _denom: Int) extends Ordered[Rational]{
 
   def toDouble: Double = this.num.toDouble/this.denom
   def toFloat: Float = this.num.toFloat/this.denom
-  def round: Int = math.round(this.toDouble).toInt
+  def round: Long = math.round(this.toDouble).toLong
 
   override def equals(obj: scala.Any): Boolean = {
     obj match {
