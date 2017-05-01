@@ -44,14 +44,20 @@ class Point(_x: Rational, _y: Rational ){
       return false
     }
 
+
+    var count = 0
     var ray: Line = null
     var intersectsVertex = true
     var intersections: Set[Point] = null
     while (intersectsVertex) {
-      ray = new Line(this, new Point(new Rational(Random.nextInt(10000)+maxX.round+1), new Rational(Random.nextInt(10000)+maxY.round+1)))
+      if (count > points.size) {
+        assert(false, "This should never happen.")
+      }
+      ray = new Line(this, new Point(new Rational(count+maxX.round+1), new Rational(maxY.round+1)))
       intersections = p.filter(side => ray.intersects(side, includeEnds = true))
         .map(side => ray.getIntersection(side)).toSet
       intersectsVertex = p.flatMap(side => List(side.start, side.end)).exists(v => intersections.contains(v))
+      count += 1
     }
     // total number of intersections including, vertex intersection will only count once since we're using
     // a set
