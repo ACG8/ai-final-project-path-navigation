@@ -35,7 +35,7 @@ object grids {
     rectangle(7,2,14,6),
     polygon(end19_19)
   )
-  val medium1: Grid = grid(20,20,
+  val easy2: Grid = grid(20,20,
     polygon(start1_1),
     rectangle(3,3,5,5),
     polygon(point(1,7),point(1,18),point(10,18),point(10,14),point(8,14),point(8,16),point(4,16),point(4,15),
@@ -46,7 +46,46 @@ object grids {
     rectangle(12,17,19,15),
     polygon(end19_19)
   )
+  val easy3: Grid = grid(20,20,
+    polygon(start1_1),
+    polygon(point(2,6),point(3,8),point(7,3),point(5,2)),
+    rectangle(1,16,12,10),
+    rectangle(13,17,18,15),
+    rectangle(14,14,17,11),
+    rectangle(9,9,19,1),
+    polygon(end19_19)
+  )
+  val easy4: Grid = grid(20,20,
+    polygon(start1_1),
+    rectangle(1,16,6,9),
+    rectangle(8,16,19,16),
+    rectangle(12,8,19,12),
+    polygon(point(7,13),point(10,13),point(13,2),point(7,10)),
+    polygon(point(1,8),point(7,8),point(9,4),point(1,4)),
+    polygon(end19_19)
+  )
+  val easy5: Grid = grid(20,20,
+    polygon(start1_1),
+    rectangle(13,17,19,13),
+    rectangle(9,1,19,7),
+    polygon(point(1,8),point(7,8),point(7,1),point(4,1),point(5,6),point(1,4)),
+    polygon(point(9,9),point(11,13),point(13,12),point(13,9)),
+    polygon(point(1,10),point(1,12),point(5,12),point(5,18),point(12,18),point(8,10)),
+    polygon(end19_19)
+  )
 
+  val med1: Grid = grid(20,20,
+    polygon(point(6,6)),
+    rectangle(11,1,15,6),
+    rectangle(6,14,9,19),
+    rectangle(10,17,16,19),
+    rectangle(17,17,18,19),
+    polygon(point(4,6),point(3,8),point(6,10),point(10,5),point(10,1),point(7,2),point(6,4),point(8,5),point(6,4)),
+    polygon(point(10,14),point(10,16),point(19,16),point(19,7),point(14,7),point(14,10),point(17,10),point(17,14)),
+    rectangle(9,7,10,10),
+    polygon(point(1,11),point(1,13),point(13,13),point(13,7),point(11,7),point(11,11)),
+    polygon(end19_19)
+  )
 
   // Grids for fun
   val dejaVu: Grid = grid(1000,572,
