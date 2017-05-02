@@ -22,8 +22,6 @@ object hillClimb {
     }
   }
 
-  // a utility method
-
   // next returns a StateBundle containing the immediate successor of n
   // with best (k - 1) descendant, and the relative cost of moving to that node
 
@@ -55,10 +53,6 @@ object hillClimb {
       } catch {
         case _ : Throwable => return (Nil, 0, 0.0)
       }
-        println("The current node is " + path.head.toString)
-        println("The candidate next node is " + nxt.state.toString)
-        println("The current node's heuristic is " + h(path.head))
-        println("The candidate next node's k-descendant heuristic is " + nxt.kHeuristic)
         nxt match {
           case StateBundle(s, _, relCost) if s.isGoalState  => ((s :: path).reverse, numIter, totalPathCost + relCost)
           case StateBundle(_, heur, _) if (heur >= h(path.head)) => (Nil, 0, 0.0)
