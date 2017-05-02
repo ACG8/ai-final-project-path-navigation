@@ -25,7 +25,26 @@ object grids {
             point(7,5),point(5,3),point(5,1),point(3,1),point(3,2),point(6,5)),
     polygon(end9_9))
 
+  val cruel: Grid = grid(20,20,
+    polygon(start1_1),
+    rectangle(1,16,4,19),
+    rectangle(9,1,12,4),
+    rectangle(16,1,19,4),
+    polygon(point(1,9),point(1,13),point(4,13),point(5,11)),
+    polygon(point(2,4),point(2,5),point(8,11),point(5,14),point(5,17),point(10,17),point(12,15),point(17,19),
+      point(19,17),point(15,12),point(18,9),point(15,4),point(11,8),point(5,2),point(4,3),point(18,17),point(17,18),
+      point(3,4))
+  )
   // Fairly easy grids (20x20) with 5 polygons
+  val easy0: Grid = grid(20,20,
+    polygon(start1_1),
+    polygon(point(1,9),point(1,12),point(7,12),point(12,5),point(12,1),point(9,1),point(9,4),point(5,9)),
+    rectangle(1,19,13,14),
+    rectangle(9,13,11,10),
+    rectangle(14,18,19,13),
+    polygon(point(12,12),point(19,12),point(19,1),point(16,1),point(16,5),point(12,9)),
+    polygon(end19_19)
+  )
   val easy1: Grid = grid(20,20,
     polygon(start1_1),
     rectangle(2,2,4,4),
@@ -74,13 +93,14 @@ object grids {
     polygon(end19_19)
   )
 
+
   val med1: Grid = grid(20,20,
     polygon(point(6,6)),
     rectangle(11,1,15,6),
     rectangle(6,14,9,19),
     rectangle(10,17,16,19),
     rectangle(17,17,18,19),
-    polygon(point(4,6),point(3,8),point(6,10),point(10,5),point(10,1),point(7,2),point(6,4),point(8,5),point(6,4)),
+    polygon(point(4,6),point(3,8),point(6,10),point(10,5),point(10,1),point(7,2),point(6,4),point(8,5),point(6,8)),
     polygon(point(10,14),point(10,16),point(19,16),point(19,7),point(14,7),point(14,10),point(17,10),point(17,14)),
     rectangle(9,7,10,10),
     polygon(point(1,11),point(1,13),point(13,13),point(13,7),point(11,7),point(11,11)),

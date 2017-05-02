@@ -16,7 +16,7 @@ object astarTests {
   private type Heuristic = PathState => Double
   private type Algorithm = (PathState, Heuristic) => (List[PathState],Int,Double)
   var tests:List[Test.Test] = Nil
-  for (a <- List[(Algorithm,String)](/*(astar.astar,"ASt"),*/(greedybestfirst.greedybestfirst,"GBF"),
+  for (a <- List[(Algorithm,String)]((astar.astar,"ASt"),(greedybestfirst.greedybestfirst,"GBF"),
                                      (hillClimb.kHillClimb[PathState](1), "Classic hillclimbing"),
                                      (hillClimb.kHillClimb[PathState](2), "2-lookahead hillclimbing"))) {
     for (h <- List[(Heuristic,String)]((PathState.cartesianH,"cartesian"),(PathState.lookAheadH,"lookahead"))) {
@@ -36,7 +36,13 @@ object astarTests {
         Test.test(grids.backtrack,
           "Backtrack ("+a._2+","+h._2+")","test of algorithm's ability to navigate around obstacles",
           a._1,h._1),
+        Test.test(grids.cruel,
+          "Cruel ("+a._2+","+h._2+")","heuristics won't save you here...",
+          a._1,h._1),
 
+        Test.test(grids.easy0,
+          "Easy0 ("+a._2+","+h._2+")","an easy course (5 polygons, 20x20)",
+          a._1,h._1),
         Test.test(grids.easy1,
           "Easy1 ("+a._2+","+h._2+")","an easy course (5 polygons, 20x20)",
           a._1,h._1),
@@ -63,7 +69,7 @@ object astarTests {
           "Med3 ("+a._2+","+h._2+")","a medium course (8 polygons, 20x20)",
           a._1,h._1),
         Test.test(grids.med4,
-          "Med3 ("+a._2+","+h._2+")","a medium course (8 polygons, 20x20)",
+          "Med4 ("+a._2+","+h._2+")","a medium course (8 polygons, 20x20)",
           a._1,h._1),
 
         Test.test(grids.dejaVu,

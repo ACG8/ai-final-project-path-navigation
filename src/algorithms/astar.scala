@@ -1,6 +1,7 @@
 package algorithms
 
 import model.State
+import tests.modelTests
 
 import scala.collection.mutable
 
@@ -34,13 +35,14 @@ object astar {
     var path: List[T] = List.empty //our solution
     // alternate between choosing a node to expand, checking to see if it is a goal state, and adding its successors to the frontier
     while (frontier.nonEmpty && path.isEmpty) {
-
       val current_path: List[T] = frontier.head._1
       val g: Double = frontier.head._3
       val current_state = current_path.head
       frontier = frontier.tail
       //g is the cost of getting to the current state
-      if (current_state.isGoalState) {
+      // Limit number of iterations
+      if (iterations > 5000) frontier.clear
+      else if (current_state.isGoalState) {
         totalcost = g
         path = current_path.reverse
       }
