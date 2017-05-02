@@ -61,6 +61,9 @@ object PathState {
     val (dx,dy) = (x1-x0,y1-y0)
     Math.sqrt((dx*dx+dy*dy).toDouble)
   }
+  val lookAheadH: PathState => Double = (state) => {
+    state.successors.map{ case(s,_) => cartesianH(s)}.min
+  }
 
 
 

@@ -16,10 +16,10 @@ object astarTests {
   private type Heuristic = PathState => Double
   private type Algorithm = (PathState, Heuristic) => (List[PathState],Int,Double)
   var tests:List[Test.Test] = Nil
-  for (a <- List[(Algorithm,String)]((astar.astar,"ASt"),(greedybestfirst.greedybestfirst,"GBF"),
+  for (a <- List[(Algorithm,String)](/*(astar.astar,"ASt"),*/(greedybestfirst.greedybestfirst,"GBF"),
                                      (hillClimb.kHillClimb[PathState](1), "Classic hillclimbing"),
                                      (hillClimb.kHillClimb[PathState](2), "2-lookahead hillclimbing"))) {
-    for (h <- List[(Heuristic,String)]((PathState.cartesianH,"cartesian"))) {
+    for (h <- List[(Heuristic,String)]((PathState.cartesianH,"cartesian"),(PathState.lookAheadH,"lookahead"))) {
       tests ++= List(
         Test.test(grids.trivialCase,
           "Trivial Case ("+a._2+","+h._2+")","an empty grid",
@@ -54,7 +54,16 @@ object astarTests {
           a._1,h._1),
 
         Test.test(grids.med1,
-          "Med1 ("+a._2+","+h._2+")","an medium course (8 polygons, 20x20)",
+          "Med1 ("+a._2+","+h._2+")","a medium course (8 polygons, 20x20)",
+          a._1,h._1),
+        Test.test(grids.med2,
+          "Med2 ("+a._2+","+h._2+")","a medium course (8 polygons, 20x20)",
+          a._1,h._1),
+        Test.test(grids.med3,
+          "Med3 ("+a._2+","+h._2+")","a medium course (8 polygons, 20x20)",
+          a._1,h._1),
+        Test.test(grids.med4,
+          "Med3 ("+a._2+","+h._2+")","a medium course (8 polygons, 20x20)",
           a._1,h._1),
 
         Test.test(grids.dejaVu,
