@@ -71,6 +71,9 @@ object astarTests {
         Test.test(grids.med4,
           "Med4 ("+a._2+","+h._2+")","a medium course (8 polygons, 20x20)",
           a._1,h._1),
+        Test.test(grids.med5,
+          "Med5 ("+a._2+","+h._2+")","a medium course (8 polygons, 20x20)",
+          a._1,h._1),
 
         Test.test(grids.dejaVu,
           "Deja Vu ("+a._2+","+h._2+")","the example obstacle course provided in the handout",

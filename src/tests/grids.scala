@@ -146,6 +146,25 @@ object grids {
     polygon(end19_19)
   )
 
+  val med5: Grid = grid(20,20,
+    polygon(point(2,1)),
+    polygon(point(2,2), point(4,2), point(2,5)),
+    polygon(point(2,9), point(4,12), point(5,9),
+      point(7,12), point(5,15), point(0,15), point(2,12),
+      point(0,9)),
+    polygon(point(2,16), point(4,18), point(2,20), point(0,18)),
+    rectangle(7,14,12,17),
+    polygon(point(8,12), point(11,12), point(11,2),
+      point(6,2), point(4,5)),
+    polygon(point(12,2), point(15,2), point(15,9),
+      point(15,10), point(13,10)),
+    polygon(point(12,12), point(20,12), point(18,15),
+      point(14,15)),
+    polygon(point(17,6), point(18,3), point(18,9)),
+    polygon(end19_19)
+  )
+
+
   // Grids for fun
   val dejaVu: Grid = grid(1000,572,
     polygon(point(62,487)),
