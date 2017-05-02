@@ -12,5 +12,6 @@ trait State[T <: State[T]] {
 	def successors: List[(T,Double)]
 	def isGoalState: Boolean
 	def toString: String
+	def size: Int
 	override def equals(obj: scala.Any): Boolean
 }

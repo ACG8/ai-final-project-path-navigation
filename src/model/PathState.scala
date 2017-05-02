@@ -24,6 +24,9 @@ class PathState(_grid: Grid, _position: Point, _goal: Point) extends State[PathS
 
   def isGoalState: Boolean = goal == position
 
+  def size: Int = {
+    grid.allVertices.count( _ => true)
+  }
   // The second value is the cost of reaching the state from the current state.
   def successors: List[(PathState,Double)] = {
     grid.allVertices.filter(_ != position)
@@ -121,14 +124,16 @@ object PathState {
       }
 
     // draw the path in green
-    g.setColor(Color.GREEN)
-    for (line <- path.iterator.sliding(2)) {
-      g.setStroke(new BasicStroke())  // reset to default
-      val p0 = line.head.position
-      val p1 = line.last.position
-
-      g.draw(new Line2D.Double((p0.x*scale).round, (p0.y*scale).round, (p1.x*scale).round, (p1.y*scale).round))
+    if (path.nonEmpty) {
+      g.setColor(Color.GREEN)
+      for (line <- path.iterator.sliding(2)) {
+        g.setStroke(new BasicStroke())  // reset to default
+        val p0 = line.head.position
+        val p1 = line.last.position
+        g.draw(new Line2D.Double((p0.x*scale).round, (p0.y*scale).round, (p1.x*scale).round, (p1.y*scale).round))
+      }
     }
+
 
     // draw endpoints of path
     val two = new Rational(2)
