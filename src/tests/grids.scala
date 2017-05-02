@@ -33,7 +33,17 @@ object grids {
     polygon(point(1,9),point(1,13),point(4,13),point(5,11)),
     polygon(point(2,4),point(2,5),point(8,11),point(5,14),point(5,17),point(10,17),point(12,15),point(17,19),
       point(19,17),point(15,12),point(18,9),point(15,4),point(11,8),point(5,2),point(4,3),point(18,17),point(17,18),
-      point(3,4))
+      point(3,4)),
+    polygon(end19_19)
+  )
+  val triangles: Grid = grid(20,20,
+    polygon(start1_1),
+    polygon(point(2,9),point(9,2),point(9,9)),
+    polygon(point(12,8),point(18,0),point(12,0)),
+    polygon(point(8,18),point(18,18),point(18,7)),
+    polygon(point(18,11),point(20,11),point(19,9)),
+    polygon(point(10,19),point(12,18),point(12,20)),
+    polygon(end19_19)
   )
   // Fairly easy grids (20x20) with 5 polygons
   val easy0: Grid = grid(20,20,
