@@ -1,7 +1,7 @@
-package tests
+package main.scala.tests
 
-import model.{Line, Point, Polygon, Grid, PathState, Rational}
-import algorithms.{astar,greedybestfirst, hillClimb}
+import main.scala.model.{Line, Point, Polygon, Grid, PathState, Rational}
+import main.scala.algorithms.{astar,greedybestfirst, hillClimb}
 
 
 /**

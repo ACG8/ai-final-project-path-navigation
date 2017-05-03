@@ -1,5 +1,6 @@
-import model.{Line, Point, Polygon, PathState}
-import tests.{modelTests,astarTests}
+package main.scala
+import tests.modelTests
+import tests.astarTests
 
 object main {
   def main(args: Array[String]): Unit = {

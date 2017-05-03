@@ -1,4 +1,4 @@
-package tests
+package main.scala.tests
 
 /**
   * Created by Ananda on 4/28/2017.

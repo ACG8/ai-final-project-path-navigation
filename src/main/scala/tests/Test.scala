@@ -1,7 +1,7 @@
-package tests
+package main.scala.tests
 
-import algorithms.astar.astar
-import model._
+import main.scala.algorithms.astar.astar
+import main.scala.model._
 
 /**
   * Created by Ananda on 4/30/2017.

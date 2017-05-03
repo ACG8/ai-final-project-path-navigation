@@ -1,6 +1,6 @@
-package algorithms
+package main.scala.algorithms
 
-import model.State
+import main.scala.model.State
 
 /**
   * Created by Richard on 4/24/2017

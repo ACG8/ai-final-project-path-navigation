@@ -1,7 +1,7 @@
-package algorithms
+package main.scala.algorithms
 
-import model.State
-import tests.modelTests
+import main.scala.model.State
+import main.scala.tests.modelTests
 
 import scala.collection.mutable
 

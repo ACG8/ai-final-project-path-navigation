@@ -1,4 +1,4 @@
-package model
+package main.scala.model
 
 /**
   * Created by Ananda on 4/18/2017.

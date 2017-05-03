@@ -1,10 +1,10 @@
-package tests
+package main.scala.tests
 
 import java.awt.geom.{Ellipse2D, Line2D}
 import java.awt.{BasicStroke, Color}
 import java.awt.image.BufferedImage
 
-import model._
+import main.scala.model._
 
 /**
   * Created by agieg on 4/20/2017.

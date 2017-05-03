@@ -1,6 +1,6 @@
-package algorithms
+package main.scala.algorithms
 
-import model.State
+import main.scala.model.State
 
 import scala.collection.mutable
 

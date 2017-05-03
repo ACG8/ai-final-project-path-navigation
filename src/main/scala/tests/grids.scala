@@ -1,7 +1,7 @@
-package tests
+package main.scala.tests
 
-import model._
-import tests.astarTests._
+import main.scala.model._
+import main.scala.tests.astarTests._
 
 /**
   * Created by agieg on 4/29/2017.
@@ -14,7 +14,7 @@ object grids {
   private val end19_19 = point(19,19)
   // Do not change this variable, make a new one if you need it. Tests rely on this being the way it is.
 
-  // Grids for basic tests of functionality (10x10), with 1 polygon
+  // Grids for basic main.scala.tests of functionality (10x10), with 1 polygon
   val trivialCase: Grid = grid(10,10,polygon(start1_1),polygon(end9_9))
   val oneTriangle: Grid = grid(10,10,polygon(start1_1),polygon(point(3,6),point(7,5),point(5,2)),polygon(end9_9))
   val centerSquare: Grid = grid(10,10,polygon(start1_1),polygon(point(3,3),point(7,3),point(7,7),point(3,7)),polygon(end9_9))
