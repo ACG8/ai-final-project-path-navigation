@@ -59,13 +59,15 @@ object PathState {
     * Below are heuristic functions associated with PathState
     */
   val cartesianH: PathState => Double = (state) => {
+    // cartesian distance
     val (x0,y0) = (state.position.x,state.position.y)
     val (x1,y1) = (state.goal.x,state.goal.y)
     val (dx,dy) = (x1-x0,y1-y0)
     Math.sqrt((dx*dx+dy*dy).toDouble)
   }
   val lookAheadH: PathState => Double = (state) => {
-    state.successors.map{ case(s,_) => cartesianH(s)}.min
+    // minimum cartesian distance among this state and its successors
+    (cartesianH(state)::state.successors.map{ case(s,_) => cartesianH(s)}).min
   }
 
 
