@@ -62,6 +62,9 @@ object astarTests {
           "Easy5 ("+a._2+","+h._2+")","an easy course (5 polygons, 20x20)",
           a._1,h._1),
 
+        Test.test(grids.med0,
+          "Med0 ("+a._2+","+h._2+")","a medium course (8 polygons, 20x20)",
+          a._1,h._1),
         Test.test(grids.med1,
           "Med1 ("+a._2+","+h._2+")","a medium course (8 polygons, 20x20)",
           a._1,h._1),
