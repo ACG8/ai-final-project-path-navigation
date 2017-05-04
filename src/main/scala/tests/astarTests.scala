@@ -1,7 +1,9 @@
 package main.scala.tests
 
-import main.scala.model.{Line, Point, Polygon, Grid, PathState, Rational}
-import main.scala.algorithms.{astar,greedybestfirst, hillClimb}
+import java.io.{File, PrintWriter}
+
+import main.scala.model.{Grid, Line, PathState, Point, Polygon, Rational}
+import main.scala.algorithms.{astar, greedybestfirst, hillClimb}
 
 
 /**
@@ -10,6 +12,9 @@ import main.scala.algorithms.{astar,greedybestfirst, hillClimb}
 object astarTests {
 
   def runTests(): Unit = {
+    // Clear the output file
+    val write = new PrintWriter(new File("output/output.txt"))
+    write.close()
     tests.foreach(test => timer.time{test.run()})
   }
 

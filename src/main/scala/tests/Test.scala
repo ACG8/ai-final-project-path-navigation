@@ -1,6 +1,7 @@
 package main.scala.tests
 
-import main.scala.algorithms.astar.astar
+import java.io._
+import scala.compat.Platform.EOL
 import main.scala.model._
 
 /**
@@ -36,13 +37,20 @@ object Test {
       println("  " + description)
       println("  start: " + start)
       println("  goal: " + end)
-      solution match {
-        case (Nil,_,_) => println("  no path found")
+      val outputstr = solution match {
+        case (Nil,_,_) =>
+          println("  no path found")
+          name+",no path found"
         case (path,iterations,length) =>
           println("  found path: " + path + " (length=" + length + ")")
           println("  " + iterations + " iterations taken")
           PathState.drawSolution(name,"length="+length+",iterations="+iterations,grid,path)
+          name+","+length+","+iterations
       }
+      // Write info to output file
+      val write = new PrintWriter(new FileOutputStream(new File("output/output.txt"),true))
+      write.write(outputstr + EOL)
+      write.close()
     })
   }
 
