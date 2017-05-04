@@ -41,13 +41,13 @@ object astarTests {
         Test.test(grids.backtrack,
           "Backtrack ("+a._2+","+h._2+")","test of algorithm's ability to navigate around obstacles",
           a._1,h._1),
+
         Test.test(grids.cruel,
           "Cruel ("+a._2+","+h._2+")","heuristics won't save you here...",
           a._1,h._1),
         Test.test(grids.triangles,
           "Triangles ("+a._2+","+h._2+")","pretty self explanatory",
           a._1,h._1),
-
         Test.test(grids.easy0,
           "Easy0 ("+a._2+","+h._2+")","an easy course (5 polygons, 20x20)",
           a._1,h._1),
