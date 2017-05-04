@@ -103,7 +103,18 @@ object grids {
     polygon(end19_19)
   )
 
-
+  val med0: Grid = grid(20,20,
+    polygon(start1_1),
+    rectangle(2,4,4,2),
+    rectangle(2,10,7,5),
+    rectangle(1,18,9,11),
+    rectangle(5,4,11,1),
+    rectangle(8,9,13,5),
+    rectangle(10,18,13,10),
+    rectangle(14,19,18,14),
+    rectangle(14,13,19,1),
+    polygon(end19_19)
+  )
   val med1: Grid = grid(20,20,
     polygon(point(6,6)),
     rectangle(11,1,15,6),
