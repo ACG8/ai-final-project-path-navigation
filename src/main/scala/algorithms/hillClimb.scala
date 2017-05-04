@@ -53,6 +53,9 @@ object hillClimb {
       } catch {
         case _ : Throwable => return (Nil, 0, 0.0)
       }
+        if(path.contains(nxt.state)) {
+          return (Nil, 0, 0.0)
+        }
         nxt match {
           case StateBundle(s, _, relCost) if s.isGoalState  => ((s :: path).reverse, numIter, totalPathCost + relCost)
           case StateBundle(_, heur, _) if (heur >= h(path.head)) => (Nil, 0, 0.0)
@@ -60,7 +63,7 @@ object hillClimb {
         }
       }
 
-    hillClimbHelper(h, k, List(start), 0, 0.0, start.size)
+    hillClimbHelper(h, k, List(start), 1, 0.0, start.size)
   }
   // kHillClimb, given an int k, gives the k-lookahead algorithm
   def kHillClimb[T <: State[T]](k : Int) : (T, T => Double) => (List[T], Int, Double)
